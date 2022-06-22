@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.dao.EmployeeDao;
+import com.revature.enums.Role;
 import com.revature.models.Employee;
 import com.revature.service.EmployeeService;
 
@@ -38,7 +39,7 @@ public class RequestHelper {
 		String lastname = request.getParameter("lastname");
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		Employee e = new Employee(firstname,lastname,username,password);
+		Employee e = new Employee(firstname,lastname,username,password, null, Role.Employee);
 		
 		int pk = eserv.register(e);
 		
