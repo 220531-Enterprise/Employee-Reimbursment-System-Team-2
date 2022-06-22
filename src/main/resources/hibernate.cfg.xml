@@ -14,7 +14,7 @@
       
       <!-- Assume test is the database name -->
       <property name = "hibernate.connection.url">
-        jdbc:postgresql://enterprise-220531.cvtq9j4axrge.us-east-1.rds.amazonaws.com:5432/postgres
+        jdbc:postgresql://team-2.cvtq9j4axrge.us-east-1.rds.amazonaws.com:5432/postgres
       </property>
       
       <property name = "hibernate.connection.username">
@@ -25,7 +25,7 @@
         postgres
       </property>
       
-      <property name="hibernate.default_schema">xinc</property>
+      <property name="hibernate.default_schema">public</property>
       
       <!-- CREATE will drop any existing tables and RE-CREATE our tables -->
       <property name="hibernate.hbm2ddl.auto">update</property>
