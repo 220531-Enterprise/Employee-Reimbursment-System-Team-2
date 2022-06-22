@@ -25,8 +25,8 @@ public class EmployeeDao {
 		// capture the pk returned when the session method save() is called
 		int pk = (int) ses.save(e);
 		
-		tx.commit();
 		// return the pk
+		tx.commit();
 		return pk;
 		
 	}
