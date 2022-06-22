@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.revature.dao.EmployeeDao;
+import com.revature.enums.Role;
 import com.revature.models.Employee;
 import com.revature.service.EmployeeService;
 
@@ -35,8 +36,8 @@ public class EmployeeServiceTests {
 	
 	@Test
 	public void testConfirmLogin_success() {
-		Employee e1 = new Employee(20,"Bruce","Banner","thehulk","green");
-		Employee e2 = new Employee(21,"Clint","Barton","hawkeye","arrows");
+		Employee e1 = new Employee(20,"Bruce","Banner","thehulk","green", "bigguy@avengers.net", Role.Employee);
+		Employee e2 = new Employee(21,"Clint","Barton","hawkeye","arrows", "bowsareviableweapson@avengers.net", Role.Employee);
 		List<Employee> emps = new ArrayList<Employee>();
 		emps.add(e1);
 		emps.add(e2);
@@ -49,8 +50,8 @@ public class EmployeeServiceTests {
 	
 	@Test
 	public void testConfirmLogin_fail() {
-		Employee e1 = new Employee(20,"Bruce","Banner","thehulk","green");
-		Employee e2 = new Employee(21,"Clint","Barton","hawkeye","arrows");
+		Employee e1 = new Employee(20,"Bruce","Banner","thehulk","green", "bigguy@avengers.net", Role.Employee);
+		Employee e2 = new Employee(21,"Clint","Barton","hawkeye","arrows", "bowsareviableweapson@avengers.net", Role.Employee);
 		List<Employee> emps = new ArrayList<Employee>();
 		emps.add(e1);
 		emps.add(e2);

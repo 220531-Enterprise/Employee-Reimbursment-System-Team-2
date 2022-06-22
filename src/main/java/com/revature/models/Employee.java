@@ -1,11 +1,15 @@
 package com.revature.models;
 
+import java.util.Objects;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.revature.enums.Role;
 
 /**
  * This is a persistent class meaning we need to provide a no-args constructor
@@ -31,7 +35,12 @@ public class Employee {
 	
 	@Column(name="pwd")
 	private String password;
+	//TODO  set up hibernate for this variable
+	private String email;
+	//TODO set up hibernate for this variable
+	private Role role;
 
+	
 	/**
 	 * no args constructor, all args constructor, all args except ID constructor
 	 * getters/setters
@@ -42,75 +51,114 @@ public class Employee {
 	public Employee() {
 		super();
 	}
-	
-	public Employee(int id, String firstName, String lastName, String username, String password) {
+
+
+	public Employee(String firstName, String lastName, String username, String password, String email, Role role) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.role = role;
+	}
+
+
+	public Employee(int id, String firstName, String lastName, String username, String password, String email,
+			Role role) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.username = username;
 		this.password = password;
+		this.email = email;
+		this.role = role;
 	}
 
-	public Employee(String firstName, String lastName, String username, String password) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.username = username;
-		this.password = password;
-	}
-	
+
 	public int getId() {
 		return id;
 	}
+
 
 	public void setId(int id) {
 		this.id = id;
 	}
 
+
 	public String getFirstName() {
 		return firstName;
 	}
+
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
 
+
 	public String getLastName() {
 		return lastName;
 	}
+
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
 
+
 	public String getUsername() {
 		return username;
 	}
+
 
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
+
 	public String getPassword() {
 		return password;
 	}
+
 
 	public void setPassword(String password) {
 		this.password = password;
 	}
 
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	public Role getRole() {
+		return role;
+	}
+
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", username=" + username
+				+ ", password=" + password + ", email=" + email + ", role=" + role + "]";
+	}
+
+
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + id;
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((username == null) ? 0 : username.hashCode());
-		return result;
+		return Objects.hash(email, firstName, id, lastName, password, role, username);
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -121,37 +169,11 @@ public class Employee {
 		if (getClass() != obj.getClass())
 			return false;
 		Employee other = (Employee) obj;
-		if (firstName == null) {
-			if (other.firstName != null)
-				return false;
-		} else if (!firstName.equals(other.firstName))
-			return false;
-		if (id != other.id)
-			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
-				return false;
-		} else if (!lastName.equals(other.lastName))
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
-		if (username == null) {
-			if (other.username != null)
-				return false;
-		} else if (!username.equals(other.username))
-			return false;
-		return true;
+		return Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName) && id == other.id
+				&& Objects.equals(lastName, other.lastName) && Objects.equals(password, other.password)
+				&& role == other.role && Objects.equals(username, other.username);
 	}
 
-	@Override
-	public String toString() {
-		return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", username=" + username
-				+ ", password=" + password + "]";
-	}
-	
 	
 
 }
