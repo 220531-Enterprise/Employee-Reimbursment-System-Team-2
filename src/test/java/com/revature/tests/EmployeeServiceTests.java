@@ -62,4 +62,28 @@ public class EmployeeServiceTests {
 		assertEquals(expected,actual);
 		
 	}
+	@Test
+	public void testGetAll_success() {
+		Employee e1 = new Employee(20,"Bruce","Banner","thehulk","green", "bigguy@avengers.net", Role.Employee);
+		Employee e2 = new Employee(21,"Clint","Barton","hawkeye","arrows", "bowsareviableweapson@avengers.net", Role.Employee);
+		List<Employee> emps = new ArrayList<Employee>();
+		emps.add(e1);
+		emps.add(e2);
+		when(mockdao.findAll()).thenReturn(emps);
+		List<Employee>  actual = eserv.getAll();
+		List<Employee> expected = emps;
+		assertEquals(expected,actual);
+		
+	}
+	@Test
+	public void testRegistersuccess() {
+		Employee e1 = new Employee(20,"Bruce","Banner","thehulk","green", "bigguy@avengers.net", Role.Employee);
+		
+		when(mockdao.insert(e1)).thenReturn(e1.getId());
+		int  actual = eserv.register(e1);
+		int expected = e1.getId();
+		assertEquals(expected,actual);
+		
+	}
+
 }
