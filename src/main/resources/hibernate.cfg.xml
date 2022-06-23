@@ -14,7 +14,7 @@
       
       <!-- Assume test is the database name -->
       <property name = "hibernate.connection.url">
-        jdbc:postgresql://team-2.cvtq9j4axrge.us-east-1.rds.amazonaws.com:5432/postgres
+        jdbc:postgresql://localhost:5432/postgres
       </property>
       
       <property name = "hibernate.connection.username">
@@ -28,7 +28,7 @@
       <property name="hibernate.default_schema">public</property>
       
       <!-- CREATE will drop any existing tables and RE-CREATE our tables -->
-      <property name="hibernate.hbm2ddl.auto">update</property>
+      <property name="hibernate.hbm2ddl.auto">create</property>
       		
 		<!-- UPDATE: wouldn't delete anything, but would add tables or object  -->
 		<!-- VALIDATE: best for production checks to make sure that everything in the DB is as expected -->
@@ -41,7 +41,9 @@
       <property name="hibernate.show_sql">true</property>
       
       <!-- List of persistent classes -->
-      <mapping class = "com.revature.models.Employee"/>
+      <mapping class = "com.revature.models.Crime"/>
+      
+      
 
       
    </session-factory>
