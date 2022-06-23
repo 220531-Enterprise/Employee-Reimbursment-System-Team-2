@@ -1,12 +1,18 @@
 package com.revature.models;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.revature.enums.Role;
@@ -35,10 +41,15 @@ public class Employee {
 	
 	@Column(name="pwd")
 	private String password;
-	//TODO  set up hibernate for this variable
+	
+	@Column(name="email")
 	private String email;
-	//TODO set up hibernate for this variable
+
+	@Enumerated(EnumType.STRING)
 	private Role role;
+	
+	@OneToMany(mappedBy="employeeHolder", fetch=FetchType.LAZY)
+	List<Reimbursement> reImbList = new ArrayList<Reimbursement>();
 
 	
 	/**
@@ -50,6 +61,20 @@ public class Employee {
 	
 	public Employee() {
 		super();
+	}
+
+
+	public Employee(int id, String firstName, String lastName, String username, String password, String email,
+			Role role, List<Reimbursement> reImbList) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.role = role;
+		this.reImbList = reImbList;
 	}
 
 
@@ -146,6 +171,13 @@ public class Employee {
 		this.role = role;
 	}
 
+	public void setReImbList(List<Reimbursement> reImbList) {
+		this.reImbList = reImbList;
+	}
+	
+	public List<Reimbursement> getReImbList() {
+		return reImbList;
+	}
 
 	@Override
 	public String toString() {
@@ -156,7 +188,7 @@ public class Employee {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(email, firstName, id, lastName, password, role, username);
+		return Objects.hash(email, firstName, id, lastName, password, reImbList, role, username);
 	}
 
 
@@ -171,7 +203,8 @@ public class Employee {
 		Employee other = (Employee) obj;
 		return Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName) && id == other.id
 				&& Objects.equals(lastName, other.lastName) && Objects.equals(password, other.password)
-				&& role == other.role && Objects.equals(username, other.username);
+				&& Objects.equals(reImbList, other.reImbList) && role == other.role
+				&& Objects.equals(username, other.username);
 	}
 
 	

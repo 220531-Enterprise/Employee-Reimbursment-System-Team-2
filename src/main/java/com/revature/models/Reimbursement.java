@@ -1,58 +1,134 @@
 package com.revature.models;
 
+import java.util.Arrays;
+import java.util.Date;
 import java.util.Objects;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.type.BlobType;
 
 import com.revature.enums.ReimbType;
 import com.revature.enums.Status;
 
+@Entity
+@Table(name="reimbursement")
 public class Reimbursement { //TODO set up Hibernate for this class
-
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
+	
 	
 	private double amount;
 	
-	private String timestamp;
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "create_date")
+	private java.util.Date date_submitted;
 	
-	private String resolved;
+	@CreationTimestamp
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "resolved_date")
+	private java.util.Date date_resolved;
 	
+	
+	@Column(length=250)
 	private String description;
 	
+	@Column(name="author_id")
 	private int authorId;
 	
+	@Column(name="resolver_id")
 	private int resolverId;
 	
-	private Status status;
+	@Enumerated(EnumType.STRING)
+	private Status status= Status.Pending;
 	
+	@Enumerated(EnumType.STRING)
 	private ReimbType type;
 	
-	public Reimbursement(int id, double amount, String timestamp, String resolved, String description, int authorId,
-			int resolverId, Status status, ReimbType type) {
+	
+	// This is for the photo but if it actually works I'll be amazed
+	@Lob
+    @Column(name = "reciept_img", columnDefinition="BLOB")
+    private byte[] reciept_img;
+	
+	
+	//CONSTRUCTORS//////////
+	
+	public Reimbursement(int id, double amount, Date date_submitted, Date date_resolved, String description,
+			int authorId, int resolverId, Status status, ReimbType type, byte[] reciept_img) {
 		super();
 		this.id = id;
 		this.amount = amount;
-		this.timestamp = timestamp;
-		this.resolved = resolved;
+		this.date_submitted = date_submitted;
+		this.date_resolved = date_resolved;
 		this.description = description;
 		this.authorId = authorId;
 		this.resolverId = resolverId;
 		this.status = status;
 		this.type = type;
+		this.reciept_img = reciept_img;
 	}
-	public Reimbursement(double amount, String timestamp, String resolved, String description, int authorId,
-			int resolverId, Status status, ReimbType type) {
+	
+	
+	public Reimbursement(int id, double amount, String description, int authorId,
+			int resolverId,  ReimbType type) {
+		super();
+		this.id = id;
+		this.amount = amount;
+		this.date_resolved = null;
+		this.description = description;
+		this.authorId = authorId;
+		this.resolverId = resolverId;
+		this.type = type;
+		
+		
+	}
+	public Reimbursement(double amount, String description, int authorId,
+			 ReimbType type) {
 		super();
 		this.amount = amount;
-		this.timestamp = timestamp;
-		this.resolved = resolved;
+		
+		this.date_resolved = null;
 		this.description = description;
 		this.authorId = authorId;
 		this.resolverId = resolverId;
 		this.status = status;
 		this.type = type;
+		
+		
 	}
 	public Reimbursement() {
 		super();
 	}
+	
+	//GETTERS AND SETTERS/////////////////////
+	
+	public  byte[] getReciept_img() {
+		return reciept_img;
+	}
+	
+	
+	public void setReciept_img(byte[] reciept_img) {
+		this.reciept_img = reciept_img;
+	}
+	
+	
+
+
 	public int getId() {
 		return id;
 	}
@@ -65,17 +141,19 @@ public class Reimbursement { //TODO set up Hibernate for this class
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
-	public String getTimestamp() {
-		return timestamp;
+	
+	
+	public java.util.Date getDate_submitted() {
+		return date_submitted;
 	}
-	public void setTimestamp(String timestamp) {
-		this.timestamp = timestamp;
+	public void setDate_submitted(java.util.Date date_submitted) {
+		this.date_submitted = date_submitted;
 	}
-	public String getResolved() {
-		return resolved;
+	public java.util.Date getDate_resolved() {
+		return date_resolved;
 	}
-	public void setResolved(String resolved) {
-		this.resolved = resolved;
+	public void setDate_resolved(java.util.Date date_resolved) {
+		this.date_resolved = date_resolved;
 	}
 	public String getDescription() {
 		return description;
@@ -107,9 +185,21 @@ public class Reimbursement { //TODO set up Hibernate for this class
 	public void setType(ReimbType type) {
 		this.type = type;
 	}
+	
+	
+	
+	
+	
+	
+	
 	@Override
 	public int hashCode() {
-		return Objects.hash(amount, authorId, description, id, resolved, resolverId, status, timestamp, type);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(reciept_img);
+		result = prime * result + Objects.hash(amount, authorId, date_resolved, date_submitted, description, id,
+				resolverId, status, type);
+		return result;
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -121,15 +211,18 @@ public class Reimbursement { //TODO set up Hibernate for this class
 			return false;
 		Reimbursement other = (Reimbursement) obj;
 		return Double.doubleToLongBits(amount) == Double.doubleToLongBits(other.amount) && authorId == other.authorId
+				&& Objects.equals(date_resolved, other.date_resolved)
+				&& Objects.equals(date_submitted, other.date_submitted)
 				&& Objects.equals(description, other.description) && id == other.id
-				&& Objects.equals(resolved, other.resolved) && resolverId == other.resolverId && status == other.status
-				&& Objects.equals(timestamp, other.timestamp) && type == other.type;
+				&& Arrays.equals(reciept_img, other.reciept_img) && resolverId == other.resolverId
+				&& status == other.status && type == other.type;
 	}
 	@Override
 	public String toString() {
-		return "Reimbursement [id=" + id + ", amount=" + amount + ", timestamp=" + timestamp + ", resolved=" + resolved
-				+ ", description=" + description + ", authorId=" + authorId + ", resolverId=" + resolverId + ", status="
-				+ status + ", type=" + type + "]";
+		return "Reimbursement [id=" + id + ", amount=" + amount + ", date_submitted=" + date_submitted
+				+ ", date_resolved=" + date_resolved + ", description=" + description + ", authorId=" + authorId
+				+ ", resolverId=" + resolverId + ", status=" + status + ", type=" + type + ", reciept_img="
+				+ Arrays.toString(reciept_img) + "]";
 	}
 	
 	
