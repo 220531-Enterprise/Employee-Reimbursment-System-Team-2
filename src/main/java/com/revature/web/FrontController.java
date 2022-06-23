@@ -39,6 +39,8 @@ public class FrontController extends HttpServlet {
 		case "register":
 			RequestHelper.processRegistration(request, response);
 			break;
+		case "request":
+			RequestHelper.processReimbursementRequest(request, response);
 			
 		default:
 			// custom error page
