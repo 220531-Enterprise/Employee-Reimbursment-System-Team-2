@@ -41,7 +41,7 @@ public class Reimbursement { //TODO set up Hibernate for this class
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "resolved_date")
-	private java.util.Date date_resolved;
+	private java.util.Date date_resolved = null;
 	
 	
 	@Column(length=250)
@@ -105,8 +105,6 @@ public class Reimbursement { //TODO set up Hibernate for this class
 		this.date_resolved = null;
 		this.description = description;
 		this.authorId = authorId;
-		this.resolverId = resolverId;
-		this.status = status;
 		this.type = type;
 		
 		
