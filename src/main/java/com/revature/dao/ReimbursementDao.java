@@ -28,86 +28,82 @@ public class ReimbursementDao {
 	
 	public List<Reimbursement> findAll() {
 		
-		// grab the session
 		Session ses = HibernateUtil.getSession();
+		List<Reimbursement> reImbs = ses.createQuery("from Reimbursement", Reimbursement.class).list();
 		
-		// make an HQL -- Hibernate Query Language: odd mix of OOP & native SQL
-		 List<Reimbursement> reImbs = ses.createQuery("from Reimbursement", Reimbursement.class).list();
-		
-		 // return the list of employees
 		return reImbs;
 		
 	}
+		
 	
-	
-	   public void deleteReimbursement(Integer ID){
+	   public Reimbursement findReimbursementbyId(int ID){
 		      Session session = HibernateUtil.getSession();
 		      Transaction tx = null;
+		      Reimbursement r = null;
 		      
 		      try {
 		         tx = session.beginTransaction();
-		         Reimbursement r = session.get(Reimbursement.class, ID); 
-		         session.delete(r); 
-		         tx.commit();
+		         r = session.get(Reimbursement.class, ID); 
+		         
 		      } catch (HibernateException e) {
 		         if (tx!=null) tx.rollback();
 		         e.printStackTrace(); 
 		      } finally {
 		         session.close(); 
 		      }
+		      return r;
 		   }
 	
 	   
-	   public void updateStatus(Integer ID, Status status, int resolverId ){
+	   public boolean updateReimbursement(Reimbursement r ){
+		      Session session = HibernateUtil.getSession();
+		      Transaction tx = null;
+		      if (r.getId()<0) {
+		    	  System.out.println("Reibursement not found in database");
+		    	  return false;
+		      } else {
+		      
+		    	  try {
+		    		  tx = session.beginTransaction();
+		    		  session.update(r); 
+		    		  tx.commit();
+		    		  return true;
+		    	  } catch (HibernateException e) {
+		    		  if (tx!=null) tx.rollback();
+		    		  e.printStackTrace();
+		    		  return false;
+		    	  } finally {
+		    		  session.close(); 
+		    	  }
+		      }
+	   }
+	   
+	   
+	   public boolean deleteReimbursement(Reimbursement r){
 		      Session session = HibernateUtil.getSession();
 		      Transaction tx = null;
 		      
-		      try {
-		         tx = session.beginTransaction();
-		         Reimbursement r = session.get(Reimbursement.class, ID); 
-		         r.setStatus( status );
-		         r.setResolverId(0);
-				 session.update(resolverId); 
-		         tx.commit();
-		      } catch (HibernateException e) {
-		         if (tx!=null) tx.rollback();
-		         e.printStackTrace(); 
-		      } finally {
-		         session.close(); 
+		      
+		      if (r.getId()<0) {
+		    	  System.out.println("Employee not found in database");
+		    	  return false;
+		      } else {
+		    	  try {
+		    		  tx = session.beginTransaction(); 
+		    		  session.delete(r); 
+		    		  tx.commit();
+		    		  return true;
+		    	  } catch (HibernateException e) {
+		    		  if (tx!=null) tx.rollback();
+		    		  e.printStackTrace(); 
+		    		  return false;
+		    	  } finally {
+		    		  session.close(); 
+		    	  }
 		      }
 		   }
-
-//	public List<Reimbursement> getReimbursmentsByID (int ID)  
-//	{  
-//	    Session ses = HibernateUtil.getSession(); 
-//	  
-//	    List<Reimbursement> list = ses.get(Reimbursement.class, ID).list(); 
-//	     
-//	      
-//	    return list;  
-//	}
-//		
-	
-	
-	// Read
-//	public List<Employee> findAll() {
-//		
-//		// grab the session
-//		Session ses = HibernateUtil.getSession();
-//		
-//		// make an HQL -- Hibernate Query Language: odd mix of OOP & native SQL
-//		 List<Employee> emps = ses.createQuery("from Employee", Employee.class).list();
-//		
-//		 // return the list of employees
-//		return emps;
-//		
-//	}
-	
-	
-	
-	public boolean update(Employee e) {
-		return false;
-	}
-	
-
+	   
+	   
+	   
+	   
 }
