@@ -30,7 +30,6 @@ public class ReimbursementDao {
 		
 		Session ses = HibernateUtil.getSession();
 		List<Reimbursement> reImbs = ses.createQuery("from Reimbursement", Reimbursement.class).list();
-		
 		return reImbs;
 		
 	}
