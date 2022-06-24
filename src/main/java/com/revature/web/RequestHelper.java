@@ -25,6 +25,7 @@ public class RequestHelper {
 	// object mapper (for frontend)
 	private static ObjectMapper om = new ObjectMapper();
 	
+	private static String htmlPage = "text/html";
 	
 	/**
 	 * What does this method do?
@@ -54,7 +55,7 @@ public class RequestHelper {
 		} else {
 			
 			PrintWriter out = response.getWriter();
-			response.setContentType("text/html");
+			response.setContentType(htmlPage);
 			out.println("<h1>Registration failed. User already exists</h1>");
 			out.println("<a href=\"index.html\">Back</a>");
 		}
@@ -85,7 +86,7 @@ public class RequestHelper {
 			request.getRequestDispatcher("welcome.html").forward(request, response);
 		} else {
 			
-			response.setContentType("text/html");
+			response.setContentType(htmlPage);
 			out.println("No user found, sorry");
 			out.println("<a href=\"index.html\">Back</a>");
 			
@@ -95,9 +96,8 @@ public class RequestHelper {
 		
 	}
 	public static void processEmployees(HttpServletRequest request, HttpServletResponse response)throws IOException, ServletException {
-		// TODO Auto-generated method stub
 //		response.setContentType("application/json");
-		response.setContentType("text/html");
+		response.setContentType(htmlPage);
 		List<Employee> emps = eserv.getAll();
 		String jsonstring = om.writeValueAsString(emps);
 		PrintWriter out = response.getWriter();
@@ -129,13 +129,13 @@ public class RequestHelper {
 		
 		
 		
-		Reimbursement reimb = new Reimbursement(amount, "", "", description, user.getId(), 0, Status.Pending, type);
+		Reimbursement reimb = new Reimbursement(amount, description, user.getId(), type);
 		
-		int pk = 1; //make this call the rdao once merged
+		int pk = 1; //TODO make this call the rdao once merged
 		
 		PrintWriter out = response.getWriter();
 		if (pk > 0) {
-			response.setContentType("text/html");
+			response.setContentType(htmlPage);
 			out.println("Submitted!");
 			out.println("<a href=\"welcome.html\">Back</a>");
 		} else {
@@ -144,6 +144,16 @@ public class RequestHelper {
 			out.println("<a href=\"welcome.html\">Back</a>");
 		}
 		
+	}
+	public static void processUsersRequests(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		HttpSession session = request.getSession();
+		Employee user = (Employee) session.getAttribute("the-user");
+		response.setContentType("application/json");
+		response.addHeader("Access-Control-Allow-Origin", "*");
+		//List<Reimbursement> reimbs = rserv.getByAuthorId(user.getId()); //TODO Need rserv and method
+		//String jsonString = om.writeValueAsString(reimbs);
+		PrintWriter out = response.getWriter();
+		//out.write(jsonString);
 	}
 	
 	

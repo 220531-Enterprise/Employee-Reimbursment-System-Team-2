@@ -37,12 +37,12 @@ public class Reimbursement { //TODO set up Hibernate for this class
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "create_date")
-	private java.util.Date date_submitted;
+	private java.util.Date dateSubmitted;
 	
 	@UpdateTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column (name = "modified_date")
-    private java.util.Date date_resolved;
+    private java.util.Date dateResolved;
 	
 	
 	@Column(length=250)
@@ -74,7 +74,7 @@ public class Reimbursement { //TODO set up Hibernate for this class
 		super();
 		this.id = id;
 		this.amount = amount;
-		this.date_submitted = date_submitted;
+		this.dateSubmitted = date_submitted;
 		
 		this.description = description;
 		this.authorId = authorId;
@@ -90,7 +90,7 @@ public class Reimbursement { //TODO set up Hibernate for this class
 		super();
 		this.id = id;
 		this.amount = amount;
-		this.date_resolved = null;
+		this.dateResolved = null;
 		this.description = description;
 		this.authorId = authorId;
 		this.resolverId = resolverId;
@@ -103,7 +103,7 @@ public class Reimbursement { //TODO set up Hibernate for this class
 		super();
 		this.amount = amount;
 		
-		this.date_resolved = null;
+		this.dateResolved = null;
 		this.description = description;
 		this.authorId = authorId;
 		this.type = type;
@@ -143,16 +143,16 @@ public class Reimbursement { //TODO set up Hibernate for this class
 	
 	
 	public java.util.Date getDate_submitted() {
-		return date_submitted;
+		return dateSubmitted;
 	}
 	public void setDate_submitted(java.util.Date date_submitted) {
-		this.date_submitted = date_submitted;
+		this.dateSubmitted = date_submitted;
 	}
 	public java.util.Date getDate_resolved() {
-		return date_resolved;
+		return dateResolved;
 	}
 	public void setDate_resolved(java.util.Date date_resolved) {
-		this.date_resolved = date_resolved;
+		this.dateResolved = date_resolved;
 	}
 	public String getDescription() {
 		return description;
@@ -196,7 +196,7 @@ public class Reimbursement { //TODO set up Hibernate for this class
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Arrays.hashCode(reciept_img);
-		result = prime * result + Objects.hash(amount, authorId, date_resolved, date_submitted, description, id,
+		result = prime * result + Objects.hash(amount, authorId, dateResolved, dateSubmitted, description, id,
 				resolverId, status, type);
 		return result;
 	}
@@ -210,16 +210,16 @@ public class Reimbursement { //TODO set up Hibernate for this class
 			return false;
 		Reimbursement other = (Reimbursement) obj;
 		return Double.doubleToLongBits(amount) == Double.doubleToLongBits(other.amount) && authorId == other.authorId
-				&& Objects.equals(date_resolved, other.date_resolved)
-				&& Objects.equals(date_submitted, other.date_submitted)
+				&& Objects.equals(dateResolved, other.dateResolved)
+				&& Objects.equals(dateSubmitted, other.dateSubmitted)
 				&& Objects.equals(description, other.description) && id == other.id
 				&& Arrays.equals(reciept_img, other.reciept_img) && resolverId == other.resolverId
 				&& status == other.status && type == other.type;
 	}
 	@Override
 	public String toString() {
-		return "Reimbursement [id=" + id + ", amount=" + amount + ", date_submitted=" + date_submitted
-				+ ", date_resolved=" + date_resolved + ", description=" + description + ", authorId=" + authorId
+		return "Reimbursement [id=" + id + ", amount=" + amount + ", date_submitted=" + dateSubmitted
+				+ ", date_resolved=" + dateResolved + ", description=" + description + ", authorId=" + authorId
 				+ ", resolverId=" + resolverId + ", status=" + status + ", type=" + type + ", reciept_img="
 				+ Arrays.toString(reciept_img) + "]";
 	}
