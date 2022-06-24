@@ -17,6 +17,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.BlobType;
 
 import com.revature.enums.ReimbType;
@@ -38,10 +39,10 @@ public class Reimbursement { //TODO set up Hibernate for this class
 	@Column(name = "create_date")
 	private java.util.Date date_submitted;
 	
-	@CreationTimestamp
+	@UpdateTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "resolved_date")
-	private java.util.Date date_resolved = null;
+	@Column (name = "modified_date")
+    private java.util.Date date_resolved;
 	
 	
 	@Column(length=250)
@@ -74,7 +75,7 @@ public class Reimbursement { //TODO set up Hibernate for this class
 		this.id = id;
 		this.amount = amount;
 		this.date_submitted = date_submitted;
-		this.date_resolved = date_resolved;
+		
 		this.description = description;
 		this.authorId = authorId;
 		this.resolverId = resolverId;
