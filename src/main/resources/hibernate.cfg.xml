@@ -42,8 +42,6 @@
       
       <!-- List of persistent classes -->
       <mapping class = "com.revature.models.Employee"/>
-      
-      
 
       
    </session-factory>
