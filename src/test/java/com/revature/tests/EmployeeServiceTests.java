@@ -1,6 +1,7 @@
 package com.revature.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -83,6 +84,35 @@ public class EmployeeServiceTests {
 		int  actual = eserv.register(e1);
 		int expected = e1.getId();
 		assertEquals(expected,actual);
+		
+	}
+	@Test
+	public void testUpdatesuccess() {
+	
+		Employee e1 = new Employee(20,"Bruce","Banner","thehulk","green", "bigguy@avengers.net", Role.Employee);
+		
+		Employee e2 = new Employee(20,"test","update","thehulk","green", "bigguy@avengers.net", Role.Employee);
+		when(mockdao.insert(e1)).thenReturn(20);
+		when(mockdao.update(e2)).thenReturn(true);
+		when(mockdao.selectById(e1.getId())).thenReturn(e2);
+		String expected = e2.getFirstName();
+		int id = eserv.register(e1);
+		eserv.update(e2);
+		String actual = eserv.selectById(id).getFirstName();
+		assertEquals(expected,actual);
+	
+		
+	}
+	@Test
+	public void testDeletesuccess() {
+		Employee e1 = new Employee(20,"Bruce","Banner","thehulk","green", "bigguy@avengers.net", Role.Employee);
+		when(mockdao.insert(e1)).thenReturn(20);
+		when(mockdao.delete(e1.getId())).thenReturn(true);
+		int id = eserv.register(e1);
+
+		boolean actual = eserv.delete(id);
+		assertTrue(actual);
+		
 		
 	}
 

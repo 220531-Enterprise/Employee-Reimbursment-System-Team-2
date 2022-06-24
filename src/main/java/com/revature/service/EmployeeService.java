@@ -49,7 +49,14 @@ public class EmployeeService {
 	public int register(Employee e) {
 		return edao.insert(e);
 	}
-	
-	
+	public boolean delete(int id) {
+		return edao.delete(id);
+	}
+	public boolean update(Employee e) {
+		return edao.update(e);
+	}
+	public Employee selectById(int id) {
+		return edao.selectById(id);
+	}
 
 }

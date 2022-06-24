@@ -46,12 +46,51 @@ public class EmployeeDao {
 	}
 	
 	public boolean delete(int id) {
-		return false;
+		Session ses = HibernateUtil.getSession();
+		Transaction tx = ses.beginTransaction();
+		Employee emp = ses.get(Employee.class, id);
+		if(emp!=null) {
+			return false;
+		}
+		ses.delete(emp);
+		tx.commit();
+//		ses.getTransaction().commit();
+
+		
+		return true;
 		
 	}
 	
 	public boolean update(Employee e) {
+		
+		Session ses = HibernateUtil.getSession();
+		Transaction tx = ses.beginTransaction();
+		Employee emp = ses.get(Employee.class, e.getId());
+		if (emp != null) {
+			emp.setFirstName(e.getFirstName());
+			emp.setLastName(e.getLastName());
+			emp.setUsername(e.getUsername());
+			emp.setPassword(e.getPassword());
+			emp.setEmail(e.getEmail());
+			tx.commit();
+			return true;
+		}
+		
 		return false;
+	}
+	public Employee selectById(int id) {
+		Session ses = HibernateUtil.getSession();
+		
+		Employee emp = null;
+		try {
+			emp = ses.get(Employee.class, id);
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		
+		return emp;
 	}
 	
 
