@@ -18,7 +18,7 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.type.BlobType;
+
 
 import com.revature.enums.ReimbType;
 import com.revature.enums.Status;

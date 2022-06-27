@@ -7,8 +7,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.revature.enums.Status;
-import com.revature.models.Employee;
+
 import com.revature.models.Reimbursement;
 import com.revature.util.HibernateUtil;
 
