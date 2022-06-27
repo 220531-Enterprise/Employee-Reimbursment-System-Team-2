@@ -15,6 +15,7 @@
     <url-pattern>/login</url-pattern>
     <url-pattern>/employees</url-pattern>
     <url-pattern>/register</url-pattern>
+    <url-pattern>/request</url-pattern>
     <!-- http://localhost:8080/employee-servlet-app/login -->
     <!-- http://localhost:8080/employee-servlet-app/employees -->
   </servlet-mapping>

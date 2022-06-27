@@ -11,8 +11,11 @@ import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.dao.EmployeeDao;
+import com.revature.enums.ReimbType;
 import com.revature.enums.Role;
+import com.revature.enums.Status;
 import com.revature.models.Employee;
+import com.revature.models.Reimbursement;
 import com.revature.service.EmployeeService;
 
 public class RequestHelper {
@@ -22,6 +25,7 @@ public class RequestHelper {
 	// object mapper (for frontend)
 	private static ObjectMapper om = new ObjectMapper();
 	
+	private static String htmlPage = "text/html";
 	
 	/**
 	 * What does this method do?
@@ -34,12 +38,14 @@ public class RequestHelper {
 	 * We need to build an html doc with a form that will send these prameters to the method
 	 */
 	public static void processRegistration(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		PrintWriter out = response.getWriter();
 		String firstname = request.getParameter("firstname");
 		String lastname = request.getParameter("lastname");
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		Employee e = new Employee(firstname,lastname,username,password, null, Role.Manager);
+
+		String email = request.getParameter("email");
+		Employee e = new Employee(firstname,lastname,username,password, email, Role.Employee);
+
 		
 		int pk = eserv.register(e);
 		
@@ -48,10 +54,10 @@ public class RequestHelper {
 			HttpSession session = request.getSession();
 			session.setAttribute("the-user", e);
 			request.getRequestDispatcher("welcome.html").forward(request, response);
-		}
-		else {
+		} else {
 			
-			response.setContentType("text/html");
+			PrintWriter out = response.getWriter();
+			response.setContentType(htmlPage);
 			out.println("<h1>Registration failed. User already exists</h1>");
 			out.println("<a href=\"index.html\">Back</a>");
 		}
@@ -79,22 +85,10 @@ public class RequestHelper {
 			session.setAttribute("the-user", e);
 			
 			// alternatively you can redirect to another resource instead of printing out dynamically
-			
-			// print out the user's data with the print writer
-			
-			response.setContentType("text/html");
-			
-			out.println("<h1>Welcome " + e.getFirstName() + "!</h1>");
-			out.println("<h3>You have successfully logged in!</h3>");
-			
-			// you COULD print the object out as a JSON string
-			String jsonString = om.writeValueAsString(e);
-			out.println(jsonString);
-			
-			
+			request.getRequestDispatcher("welcome.html").forward(request, response);
 		} else {
 			
-			response.setContentType("text/html");
+			response.setContentType(htmlPage);
 			out.println("No user found, sorry");
 			out.println("<a href=\"index.html\">Back</a>");
 			
@@ -104,9 +98,8 @@ public class RequestHelper {
 		
 	}
 	public static void processEmployees(HttpServletRequest request, HttpServletResponse response)throws IOException, ServletException {
-		// TODO Auto-generated method stub
 //		response.setContentType("application/json");
-		response.setContentType("text/html");
+		response.setContentType(htmlPage);
 		List<Employee> emps = eserv.getAll();
 		String jsonstring = om.writeValueAsString(emps);
 		PrintWriter out = response.getWriter();
@@ -116,7 +109,54 @@ public class RequestHelper {
 		
 	}
 	
-	
+	public static void processReimbursementRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		double amount = Double.parseDouble(request.getParameter("amount"));
+		String reimbType = request.getParameter("type");
+		String description = request.getParameter("description");
+		
+		ReimbType type = null;
+		switch (reimbType) {
+			case "Travel":
+				type = ReimbType.Travel;
+				break;
+			case "Supplies":
+				type = ReimbType.Supplies;
+				break;
+			case "Food":
+				type = ReimbType.Food;
+				break;
+		}
+		HttpSession session = request.getSession();
+		Employee user = (Employee) session.getAttribute("the-user");
+		
+		
+		
+		Reimbursement reimb = new Reimbursement(amount, description, user.getId(), type);
+		
+		int pk = 1; //TODO make this call the rdao once merged
+		
+		PrintWriter out = response.getWriter();
+		if (pk > 0) {
+			response.setContentType(htmlPage);
+			out.println("Submitted!");
+			out.println("<a href=\"welcome.html\">Back</a>");
+		} else {
+			response.setContentType("text/html");
+			out.println("Hmmm... something when wrong, request was not submitted");
+			out.println("<a href=\"welcome.html\">Back</a>");
+		}
+		
+	}
+	public static void processUsersRequests(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		HttpSession session = request.getSession();
+		Employee user = (Employee) session.getAttribute("the-user");
+		response.setContentType("application/json");
+		response.addHeader("Access-Control-Allow-Origin", "*");
+		//List<Reimbursement> reimbs = rserv.getByAuthorId(user.getId()); //TODO Need rserv and method
+		//String jsonString = om.writeValueAsString(reimbs);
+		PrintWriter out = response.getWriter();
+		//out.write(jsonString);
+	}
 	
 	
 	

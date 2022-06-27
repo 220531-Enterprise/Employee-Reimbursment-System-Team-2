@@ -40,7 +40,11 @@ public class FrontController extends HttpServlet {
 		case "register":
 			RequestHelper.processRegistration(request, response);
 			break;
-			
+		case "request":
+			RequestHelper.processReimbursementRequest(request, response);
+		case "find-requests":
+			RequestHelper.processUsersRequests(request, response);
+		break;
 		default:
 			// custom error page
 			break;
