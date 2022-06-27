@@ -39,7 +39,7 @@ public class RequestHelper {
 		String lastname = request.getParameter("lastname");
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		Employee e = new Employee(firstname,lastname,username,password, null, Role.Employee);
+		Employee e = new Employee(firstname,lastname,username,password, null, Role.Manager);
 		
 		int pk = eserv.register(e);
 		

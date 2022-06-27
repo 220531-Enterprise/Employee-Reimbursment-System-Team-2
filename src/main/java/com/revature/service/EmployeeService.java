@@ -58,11 +58,12 @@ public class EmployeeService {
 	public int register(Employee e) {
 		return edao.insert(e);
 	}
-	
+	// Use Case: An Employee can submit a reimbursement request
 	public int sumbitReimbursementRequest(Reimbursement r) {
 		return rdao.insert(r);
 		
 	}
+	// An Employee can view their pending reimbursement requests
 	public List<Reimbursement> getPendingReimbursementRequest(int authorId){
 		List<Reimbursement> rts = rdao.findReimbursementbyAuthorId(authorId);
 		rts = rts.stream().filter(rt-> rt.getStatus().toString().equals("Pending"))
@@ -70,6 +71,7 @@ public class EmployeeService {
 		return rts;
 		
 	}
+	// An Employee can view their resolved reimbursement requests
 	public List<Reimbursement> getResolvedReimbursementRequest(int authorId){
 		List<Reimbursement> rts = rdao.findReimbursementbyAuthorId(authorId);
 		rts = rts.stream().filter(rt-> (rt.getStatus().toString().equals("Approved")) 
@@ -78,18 +80,21 @@ public class EmployeeService {
 		return rts;
 		
 	}
+	// Use Case: An Employee can upload an image of his/her receipt as part of the reimbursement request (stretch goal)
 	public void uploadReceiptImage() {
 		// can't come out a solution for now
 	}
+	// Use Case: An Employee can view their information
 	public Employee getInfo(int id) {
 		
 		return edao.findEmployeeById(id);
 	}
-	
+	// Use Case: An Employee can update their information
 	public boolean updateInfo(Employee e) {
 		return edao.updateEmployee(e);
 		
 	}
+	// Use Case: An Employee receives an email when one of their reimbursement requests is resolved (optional)
 	public void getEmailWhenReimbursementRequestsResolved() {
 		// can't come out a solution for now
 	}
