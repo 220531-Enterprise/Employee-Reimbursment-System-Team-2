@@ -1,0 +1,111 @@
+
+button {
+    background-color: #061c63;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  button:hover {
+    opacity: 0.8;
+  }
+
+
+
+form {
+    border: 3px solid #f1f1f1;
+  }
+
+  
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  
+/*******CLASS SELECTORS******/
+
+.top-container {
+    height: 85px;
+    background-color: #ECECEC;
+    margin-bottom: 10px;
+    
+}
+
+.beach {
+    height: 490px;
+    background-color: #06283D;  
+}
+
+.beach-img {
+    width: 1246px;
+    height: 490px;
+    opacity: 0.7;
+    display: inline-block;
+}
+
+.logo-square {
+    height: 122px;
+    width: 150px;
+    position: relative;
+    top: 2px;
+    left: 25px;
+    z-index: 1000;
+}
+
+
+
+.login {
+    width: 25%;
+    height:300px;
+    text-align: center;
+    position: relative;
+    bottom: 468px;
+    left: 463px;
+    background-color: #ECECEC;
+}
+
+.cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: red;
+}
+
+.imgcontainer{
+    background-color: #ECECEC;
+    text-align: center;
+    margin: 24px 0 12px 0;
+}
+
+img.avatar {
+    width: 20%;
+    border-radius: 50%;
+    }
+
+.container {
+    background-color: #ECECEC;
+    padding: 16px;
+}
+
+span.psw {
+    float: right;
+    padding-top: 16px;
+  }
+ 
+ .title {
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    position: absolute;
+    top: 22px;
+    color: #F15412;
+    margin-left: 33px;
+    
+  }
+
+  

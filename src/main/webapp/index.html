@@ -1,38 +1,58 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Employee Servlet App</title>
-</head>
-<body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="icon" href="images/favicon.ico?v=2" />
+  </head>
 
-	<h1>Welcome Employee</h1>
-	<h3>Please login below:</h3>
+  <body>
+    <div class="top-container">
+      <img class="logo-square" src="images/logo_sq.png" />
+      <h2 class="title">Project 1: Employee Reimbursement System</h2>
+    </div>
 
+    <div class="beach">
+      <img src="images/shorter-beach.jpg" class="beach-img" />
+    </div>
 
-	<!--  POST requests obfuscate (hide) the parameters and dont' show it in the URL -->
-	<form method="POST" action="login">
-		<!-- http://localhost:8080/employee-servlet-app/login -->
+    <div class="login">
+      <form action="login" method="post">
+        <div class="imgcontainer">
+          <img src="images/icon.jpg" alt="Avatar" class="avatar" />
+        </div>
 
-		<label>Username</label> 
-		<input type="text" name="username" placeholder="Enter a username"> <br /> 
-			
-		<label>Password</label>
-		<input type="password" name="password" placeholder="Enter a password">
+        <div class="container">
+          <label for="username"><b>Username</b></label>
+          <input
+            type="text"
+            placeholder="Enter Username"
+            name="username"
+            required
+          />
 
-		<input type="submit" value="Login!">
+          <label for="password"><b>Password</b></label>
+          <input
+            type="password"
+            placeholder="Enter Password"
+            name="password"
+            required
+          />
 
-	</form>
-	
-	<!-- Later we'll put a form below which sends a GET request to view all the employees -->
-	<form method ="GET" action = "registration.html">
-	
-		<input type ="submit" value = "Register!">
-	</form>
-	<form method ="GET" action = "employees">
-	
-		<input type ="submit" value = "See All Employees">
-	</form>
-
-</body>
+          <button class="login-button" type="submit">Login</button>
+          <label>
+            <input type="checkbox" checked="checked" name="remember" /> Remember
+            me
+          </label>
+        </div>
+        <div class="container" style="background-color: #839aa8">
+          <button type="button" class="cancelbtn">Cancel</button>
+          <span class="psw">New User? <a href="registration.html">Register here</a></span>
+        </div>
+      </form>
+    </div>
+  </body>
 </html>
