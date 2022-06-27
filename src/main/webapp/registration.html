@@ -1,36 +1,75 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Registration</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link rel="icon" href="images/favicon.ico?v=2" />
+    <link rel="stylesheet" href="css/regstyles.css">
 </head>
 <body>
 
+    <body>
+        <div class="top-container">
+          <img class="logo-square" src="images/logo_sq.png" />
+          <h2 class="title">Register here to use the employee reimbursement system</h2>
+        </div>
 
-	<h1>Welcome Stranger</h1>
-	<h3>Please sign up below:</h3>
-	
-		<!--  POST requests obfuscate (hide) the parameters and dont' show it in the URL -->
-	<form method="POST" action="register">
-		<!-- http://localhost:8080/employee-servlet-app/login -->
-		
-		<label>First Name</label> 
-		<input type="text" name="firstname" placeholder="Enter a first name"> <br /> 
-			
-			
-		<label>Last Name</label> 
-		<input type="text" name="lastname" placeholder="Enter a last name"> <br /> 
-			
+        <div class="night-div">
+           <img src="images/night-sky-cropped.jpg" class="night">
+        </div>
 
-		<label>Username</label> 
-		<input type="text" name="username" placeholder="Enter a username"> <br /> 
-			
-		<label>Password</label>
-		<input type="password" name="password" placeholder="Enter a password">
-
-		<input type="submit" value="Register">
-
-	</form>
-
+    <div class="registration">
+        <form action="register" method="post">
+          <div class="imgcontainer">
+            <img src="images/icon.jpg" alt="Avatar" class="avatar" />
+          </div>
+  
+          <div class="container">
+            
+            <label for="firstname"><b>First Name</b></label>
+            <input
+              type="text"
+              placeholder="Enter first name"
+              name="firstname"
+              required
+            />
+            
+            <label for="lastname"><b>Last Name</b></label>
+            <input
+              type="text"
+              placeholder="Enter last name"
+              name="lastname"
+              required
+            />
+            
+            
+            
+            <label for="username"><b>Username</b></label>
+            <input
+              type="text"
+              placeholder="Enter Username"
+              name="username"
+              required
+            />
+  
+            <label for="password"><b>Password</b></label>
+            <input
+              type="password"
+              placeholder="Enter Password"
+              name="password"
+              required
+            />
+  
+            <button class="login-button" type="submit">Register</button>
+            
+          </div>
+          
+          
+         
+          
+        </form>
+    
 </body>
 </html>
