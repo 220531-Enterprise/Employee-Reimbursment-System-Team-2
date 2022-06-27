@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Create A Request</title>
+<link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+	<div class="topnav">
+		<a class="active" href="welcome.html">Home</a> 
+		<a href="account.html">Account</a>
+		<a href="index.html">Log Out</a>
+	</div>
+	<form method="POST" action=request>
+		<label>How much would you like to be reimbursed?</label><br>
+		<input type="text" name="amount" placeholder="Enter an amount"> <br />
+		
+		<label>Type of expense</label><br>
+		<select name="type">
+			<option value="null">-Select-</option>
+			<option value="Travel">Travel</option>
+			<option value="Supplies">Supplies</option>
+			<option value="Food">Food</option>
+		</select>
+		<br />
+		
+		<label>Description</label><br>
+		<textarea rows="5" cols="60" name="description" maxlength="250"></textarea> <br />
+		
+		<input type="submit" value="Submit">
+		
+		
+	
+	</form>
+
+</body>
+</html>
