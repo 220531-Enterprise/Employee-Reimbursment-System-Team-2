@@ -20,4 +20,8 @@ public class ReimbursementService {
 	public List<Reimbursement> getAll(){
 		return rdao.findAll();
 	}
+	
+	public int insert(Reimbursement r) {
+		return rdao.insert(r);
+	}
 }
