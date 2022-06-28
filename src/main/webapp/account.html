@@ -3,14 +3,42 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Account</title>
-<link rel="stylesheet" href="styles/style.css">
+<link rel="stylesheet" href="css/empstyles.css">
 </head>
 <body>
-	<div class="topnav">
-		<a class="active" href="welcome.html">Home</a> 
-		<a href="account.html">Account</a>
-		<a href="index.html">Log Out</a>
-	</div>
+	<div class="menu">
+      <img class="logo" src="images/logo3.jpg" />
 
+      <div class="navigation">
+      <nav><a href="welcome.html">Dashboard</a>
+        <a href="reimbursement_request.html">Make Request</a>
+        <a href="requests.html">View  Requests</a>
+        <a href="index.html">Logout</a>
+      </nav>
+    </div>
+    </div>
+      <div class="username-icon"></div>
+      <a href="account.html"><img class="icon" src="images/icon.jpg" /></a>
+      <p class="username">username goes here</p>
+    </div>
+
+    <div class="location-bar">
+      <h2 class="location">Employee Reimbursement System</h2>
+      <p class="role">EMPLOYEE</p>
+    </div>
+
+	<h3 id="user-name-title"></h3>
+  <br>
+
+  <form method="POST" action='update-account'>
+    <input name="username" id="user-name" type="text"><br>
+    <input name="firstname" id="first-name" type="text"><br>
+    <input name="lastname" id="last-name" type="text"><br>
+    <input name="password" id="password" type="password"><br>
+    <input name="email" id="email" type="text"><br>
+    <button type="submit">Save Changes</button>
+
+  </form>
+  <script src="Scripts/account.js"></script>
 </body>
 </html>

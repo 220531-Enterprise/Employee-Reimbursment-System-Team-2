@@ -9,23 +9,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.dao.EmployeeDao;
+import com.revature.dao.ReimbursementDao;
 import com.revature.enums.ReimbType;
 import com.revature.enums.Role;
 import com.revature.enums.Status;
 import com.revature.models.Employee;
 import com.revature.models.Reimbursement;
 import com.revature.service.EmployeeService;
+import com.revature.service.ReimbursementService;
 
 public class RequestHelper {
 	
 	// employeeservice
 	private static EmployeeService eserv = new EmployeeService(new EmployeeDao());
+	private static ReimbursementService rserv = new ReimbursementService(new ReimbursementDao());
 	// object mapper (for frontend)
 	private static ObjectMapper om = new ObjectMapper();
 	
 	private static String htmlPage = "text/html";
+	private static String currentUser = "the-user";
 	
 	/**
 	 * What does this method do?
@@ -52,7 +57,7 @@ public class RequestHelper {
 		if (pk > 0) {
 			
 			HttpSession session = request.getSession();
-			session.setAttribute("the-user", e);
+			session.setAttribute(currentUser, e);
 			request.getRequestDispatcher("welcome.html").forward(request, response);
 		} else {
 			
@@ -82,7 +87,7 @@ public class RequestHelper {
 			HttpSession session = request.getSession();
 			
 			// add the user to the session
-			session.setAttribute("the-user", e);
+			session.setAttribute(currentUser, e);
 			
 			// alternatively you can redirect to another resource instead of printing out dynamically
 			request.getRequestDispatcher("welcome.html").forward(request, response);
@@ -133,7 +138,8 @@ public class RequestHelper {
 		
 		Reimbursement reimb = new Reimbursement(amount, description, user.getId(), type);
 		
-		int pk = 1; //TODO make this call the rdao once merged
+		//int pk = rserv.insert(reimb); TODO uncomment when service is working
+		int pk = (1); // delete this when service is working
 		
 		PrintWriter out = response.getWriter();
 		if (pk > 0) {
@@ -149,16 +155,36 @@ public class RequestHelper {
 	}
 	public static void processUsersRequests(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		HttpSession session = request.getSession();
-		Employee user = (Employee) session.getAttribute("the-user");
+		Employee user = (Employee) session.getAttribute(currentUser);
 		response.setContentType("application/json");
 		response.addHeader("Access-Control-Allow-Origin", "*");
-		//List<Reimbursement> reimbs = rserv.getByAuthorId(user.getId()); //TODO Need rserv and method
+		//List<Reimbursement> reimbs = rserv.getByAuthorId(user.getId()); // TODO uncomment when rdao is working
 		//String jsonString = om.writeValueAsString(reimbs);
 		PrintWriter out = response.getWriter();
 		//out.write(jsonString);
 	}
 	
+	public static void getUserFromSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		Employee user = (Employee) session.getAttribute(currentUser);
+		String jsonString = om.writeValueAsString(user);
+		PrintWriter out = response.getWriter();
+		out.write(jsonString);
+	}
 	
+	public static void updateUserInfo(HttpServletRequest request, HttpServletResponse response) {
+		String username = request.getParameter("username");
+		String firstName = request.getParameter("firstname");
+		String lastName = request.getParameter("lastname");
+		String password = request.getParameter("password");
+		String email = request.getParameter("email");
+		HttpSession session = request.getSession();
+		Employee oldUser = (Employee) session.getAttribute(currentUser);
+		
+		Employee updatedEmp = new Employee(oldUser.getId(), firstName, lastName, username, password, email, oldUser.getRole());
+		eserv.updateInfo(updatedEmp);
+		session.setAttribute(currentUser, updatedEmp);
+	}
 	
 
 }
