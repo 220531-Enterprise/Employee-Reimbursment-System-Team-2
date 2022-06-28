@@ -104,17 +104,18 @@ public class EmployeeDao {
 
 	}
 
-	public boolean deleteEmployee(Employee emp) {
+	public boolean deleteEmployee(int id) {
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 
-		if (emp.getId() < 0) {
+		if (id < 0) {
 			System.out.println("Employee not found in database");
 			return false;
 		} else {
 			try {
 				tx = session.beginTransaction();
-				session.delete(emp);
+				Employee target = session.get(Employee.class, id);
+				session.delete(target);
 				tx.commit();
 				return true;
 			} catch (HibernateException e) {
