@@ -73,7 +73,7 @@ public class ReimbursementDao {
 		return r;
 	}
 
-	@SuppressWarnings("unchecked")
+
 	public List<Reimbursement> findReimbursementbyAuthorId(int authorId) {
 
 		Session ses = HibernateUtil.getSession();
@@ -82,16 +82,13 @@ public class ReimbursementDao {
 
 		try {
 			tx = ses.beginTransaction();
-			rts = (List<Reimbursement>) ses.createQuery("from Reimbursement where authorId = '" + authorId + "'",
-					Reimbursement.class);
+			rts = (ArrayList<Reimbursement>) ses.createQuery("from Reimbursement where authorId = '" + authorId + "'",Reimbursement.class).list();
 
 		} catch (HibernateException e) {
 			if (tx != null)
 				tx.rollback();
 			e.printStackTrace();
-		} finally {
-			ses.close();
-		}
+		} 
 		return rts;
 	}
 
@@ -119,17 +116,18 @@ public class ReimbursementDao {
 		}
 	}
 
-	public boolean deleteReimbursement(Reimbursement r) {
+	public boolean deleteReimbursement(int id) {
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 
-		if (r.getId() < 0) {
+		if (id < 0) {
 			System.out.println("Employee not found in database");
 			return false;
 		} else {
 			try {
 				tx = session.beginTransaction();
-				session.delete(r);
+				Reimbursement target = session.get(Reimbursement.class, id );
+				session.delete(target);
 				tx.commit();
 				return true;
 			} catch (HibernateException e) {
