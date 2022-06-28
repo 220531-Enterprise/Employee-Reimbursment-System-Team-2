@@ -155,31 +155,31 @@ public class ManagerServiceTests {
 	}
 
 
-//
-//	@Test
-//	public void testgetAllEmployeesPendingReimbursementRequest_When1EmpWithPendingReimbursementRequestInDB_returnListObj() {
-//
-//		
-//		Reimbursement r1 = new Reimbursement(1, 1000, null, null, "test", 20, 10, Status.Pending, ReimbType.Travel,
-//				null);
-//		Reimbursement r2 = new Reimbursement(2, 1000, null, null, "test", 20, 10, Status.Approved, ReimbType.Travel,
-//				null);
-//		List<Reimbursement> rts = new ArrayList<Reimbursement>();
-//		rts.add(r1);
-//		List<Reimbursement> rts2 = new ArrayList<Reimbursement>();
-//		rts2.add(r1);
-//		rts2.add(r2);
-//	
-//		when(rmockdao.findAll()).thenReturn(rts2);
-//
-//		List<Reimbursement> expected = rts2;
-//		
-//		List<Reimbursement> actual = mserv.getAllEmployeesPendingReimbursementRequest();
-////		System.out.println(expected);
-////		System.out.println(actual);
-//	
-//		assertEquals(expected, actual);
-//	}
+
+	@Test
+	public void testgetAllEmployeesPendingReimbursementRequest_When1EmpWithPendingReimbursementRequestInDB_returnListObj() {
+
+		
+		Reimbursement r1 = new Reimbursement(1, 1000, null, null, "test", 20, 10, Status.Pending, ReimbType.Travel,
+				null);
+		Reimbursement r2 = new Reimbursement(2, 1000, null, null, "test", 20, 10, Status.Approved, ReimbType.Travel,
+				null);
+		List<Reimbursement> rts = new ArrayList<Reimbursement>();
+		rts.add(r1);
+		List<Reimbursement> rts2 = new ArrayList<Reimbursement>();
+		rts2.add(r1);
+		rts2.add(r2);
+	
+		when(rmockdao.findAll()).thenReturn(rts2);
+
+		List<Reimbursement> expected = rts2;
+		
+		List<Reimbursement> actual = mserv.getAllEmployeesPendingReimbursementRequest();
+//		System.out.println(expected);
+//		System.out.println(actual);
+	
+		assertEquals(expected, actual);
+	}
 	
 	
 
