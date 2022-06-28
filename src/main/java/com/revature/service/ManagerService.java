@@ -15,9 +15,9 @@ public class ManagerService {
 	private EmployeeDao mdao;
 	private ReimbursementDao rdao;
 
-	public ManagerService(EmployeeDao edao) {
+	public ManagerService(EmployeeDao mdao) {
 
-		this.mdao = edao;
+		this.mdao = mdao;
 
 	}
 
@@ -56,14 +56,15 @@ public class ManagerService {
 		if (r == null) return false;
 		r.setStatus(status);
 		
-		return false;
+		return true;
 		
 	}
 	// Use Case: A Manager can view all pending requests from all employees
 	public List<Reimbursement> getAllEmployeesPendingReimbursementRequest() {
+		
 		List<Reimbursement> rts = rdao.findAll();
 		rts = rts.stream().filter(rt -> (rt.getStatus().toString().equals("Pending")) && 
-				(mdao.findEmployeeById(rt.getAuthorId()).getRole().toString().equals("Employee")))
+				((mdao.findEmployeeById(rt.getAuthorId())).getRole().toString().equals("Employee")))
 				.collect(Collectors.toList());
 		return rts;
 

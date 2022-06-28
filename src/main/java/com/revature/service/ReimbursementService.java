@@ -17,4 +17,7 @@ public class ReimbursementService {
 		return rdao.findReimbursementbyAuthorId(authorId);
 	}
 
+	public List<Reimbursement> getAll(){
+		return rdao.findAll();
+	}
 }

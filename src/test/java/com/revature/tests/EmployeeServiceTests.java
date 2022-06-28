@@ -22,7 +22,7 @@ import com.revature.models.Reimbursement;
 import com.revature.service.EmployeeService;
 
 public class EmployeeServiceTests {
-	
+
 	private EmployeeService eserv;
 	private EmployeeService rserv;
 	private EmployeeDao emockdao;
@@ -34,96 +34,103 @@ public class EmployeeServiceTests {
 		rmockdao = mock(ReimbursementDao.class);
 		eserv = new EmployeeService(emockdao);
 		rserv = new EmployeeService(rmockdao);
-		
-		
+
 	}
-	
+
 	@After
 	public void teardown() {
 		emockdao = null;
 		rmockdao = null;
 		eserv = null;
 	}
-	
+
 	@Test
 	public void testConfirmLogin_WhenUsernameAndPasswordMathch_returnEmp() {
-		Employee e1 = new Employee(20,"Bruce","Banner","thehulk","green", "bigguy@avengers.net", Role.Employee);
-		Employee e2 = new Employee(21,"Clint","Barton","hawkeye","arrows", "bowsareviableweapson@avengers.net", Role.Employee);
+		Employee e1 = new Employee(20, "Bruce", "Banner", "thehulk", "green", "bigguy@avengers.net", Role.Employee);
+		Employee e2 = new Employee(21, "Clint", "Barton", "hawkeye", "arrows", "bowsareviableweapson@avengers.net",
+				Role.Employee);
 		List<Employee> emps = new ArrayList<Employee>();
 		emps.add(e1);
 		emps.add(e2);
 		when(emockdao.findAll()).thenReturn(emps);
-		Employee actual = eserv.confirmLogin("thehulk","green");
+		Employee actual = eserv.confirmLogin("thehulk", "green");
 		Employee expected = e1;
-		
-		assertEquals(expected,actual);
+
+		assertEquals(expected, actual);
 	}
-	
+
 	@Test
 	public void testConfirmLogin_WhenPasswordIsIncorrect_returnEmptyObj() {
-		Employee e1 = new Employee(20,"Bruce","Banner","thehulk","green", "bigguy@avengers.net", Role.Employee);
-		Employee e2 = new Employee(21,"Clint","Barton","hawkeye","arrows", "bowsareviableweapson@avengers.net", Role.Employee);
+		Employee e1 = new Employee(20, "Bruce", "Banner", "thehulk", "green", "bigguy@avengers.net", Role.Employee);
+		Employee e2 = new Employee(21, "Clint", "Barton", "hawkeye", "arrows", "bowsareviableweapson@avengers.net",
+				Role.Employee);
 		List<Employee> emps = new ArrayList<Employee>();
 		emps.add(e1);
 		emps.add(e2);
 		when(emockdao.findAll()).thenReturn(emps);
-		Employee actual = eserv.confirmLogin("thehulk","blue");
+		Employee actual = eserv.confirmLogin("thehulk", "blue");
 		Employee expected = new Employee();
-		
-		assertEquals(expected,actual);
-		
+
+		assertEquals(expected, actual);
+
 	}
+
 	@Test
 	public void testGetAll_WhenTwoEmpInDB_return2Emp() {
-		Employee e1 = new Employee(20,"Bruce","Banner","thehulk","green", "bigguy@avengers.net", Role.Employee);
-		Employee e2 = new Employee(21,"Clint","Barton","hawkeye","arrows", "bowsareviableweapson@avengers.net", Role.Employee);
+		Employee e1 = new Employee(20, "Bruce", "Banner", "thehulk", "green", "bigguy@avengers.net", Role.Employee);
+		Employee e2 = new Employee(21, "Clint", "Barton", "hawkeye", "arrows", "bowsareviableweapson@avengers.net",
+				Role.Employee);
 		List<Employee> emps = new ArrayList<Employee>();
 		emps.add(e1);
 		emps.add(e2);
 		when(emockdao.findAll()).thenReturn(emps);
-		List<Employee>  actual = eserv.getAll();
+		List<Employee> actual = eserv.getAll();
 		List<Employee> expected = emps;
-		assertEquals(expected,actual);
-		
+		assertEquals(expected, actual);
+
 	}
+
 	@Test
 	public void testGetAll_WhenNoUserInDB_returnEmptyObj() {
-		
+
 		List<Employee> emps = new ArrayList<Employee>();
-	
+
 		when(emockdao.findAll()).thenReturn(emps);
-		List<Employee>  actual = eserv.getAll();
+		List<Employee> actual = eserv.getAll();
 		List<Employee> expected = emps;
-		assertEquals(expected,actual);
-		
+		assertEquals(expected, actual);
+
 	}
+
 	@Test
 	public void testRegister_WhenValidEmpTryToRegister_returnId() {
-		Employee e1 = new Employee(20,"Bruce","Banner","thehulk","green", "bigguy@avengers.net", Role.Employee);
-		
+		Employee e1 = new Employee(20, "Bruce", "Banner", "thehulk", "green", "bigguy@avengers.net", Role.Employee);
+
 		when(emockdao.insert(e1)).thenReturn(e1.getId());
-		int  actual = eserv.register(e1);
+		int actual = eserv.register(e1);
 		int expected = e1.getId();
-		assertEquals(expected,actual);
-		
+		assertEquals(expected, actual);
+
 	}
-	
+
 	@Test
 	public void testRegister_WhenNullEmpTryToRegister_return0() {
-		Employee e1 = new Employee(20,"Bruce","Banner","thehulk","green", "bigguy@avengers.net", Role.Employee);
-		
+		Employee e1 = new Employee(20, "Bruce", "Banner", "thehulk", "green", "bigguy@avengers.net", Role.Employee);
+
 		when(emockdao.insert(e1)).thenReturn(0);
-		int  actual = eserv.register(null);
+		int actual = eserv.register(null);
 		int expected = 0;
-		assertEquals(expected,actual);
-		
+		assertEquals(expected, actual);
+
 	}
-	
+
 	@Test
 	public void testgetPendingReimbursementRequest_When2RtWithStatusPending_return2Rt() {
-		Employee e1 = new Employee(20,"Bruce","Banner","thehulk","green", "bigguy@avengers.net", Role.Employee);
-		Reimbursement r1 = new Reimbursement(1,1000,null,null,"test",20, 10, Status.Pending,ReimbType.Travel, null);
-		Reimbursement r2 = new Reimbursement(2,1000,null,null,"test",20, 10, Status.Approved,ReimbType.Travel, null);
+		Employee e1 = new Employee(20, "Bruce", "Banner", "thehulk", "green", "bigguy@avengers.net", Role.Employee);
+		Reimbursement r1 = new Reimbursement(1, 1000, null, null, "test", 20, 10, Status.Pending, ReimbType.Travel,
+				null);
+		Reimbursement r2 = new Reimbursement(2, 1000, null, null, "test", 20, 10, Status.Approved, ReimbType.Travel,
+				null);
 		List<Reimbursement> rts = new ArrayList<Reimbursement>();
 		rts.add(r1);
 
@@ -135,19 +142,19 @@ public class EmployeeServiceTests {
 		rserv.sumbitReimbursementRequest(r1);
 		rserv.sumbitReimbursementRequest(r2);
 		List<Reimbursement> actual = rserv.getPendingReimbursementRequest(pk);
-		
-		List<Reimbursement>  expected = rts;
-		assertEquals(expected,actual);
-		
-		
-		
-	
+
+		List<Reimbursement> expected = rts;
+		assertEquals(expected, actual);
+
 	}
+
 	@Test
 	public void testgetPendingReimbursementRequest_When1RtWithStatusPending_return1Rt() {
-		Employee e1 = new Employee(20,"Bruce","Banner","thehulk","green", "bigguy@avengers.net", Role.Employee);
-		Reimbursement r1 = new Reimbursement(1,1000,null,null,"test",20, 10, Status.Pending,ReimbType.Travel, null);
-		Reimbursement r2 = new Reimbursement(2,1000,null,null,"test",20, 10, Status.Approved,ReimbType.Travel, null);
+		Employee e1 = new Employee(20, "Bruce", "Banner", "thehulk", "green", "bigguy@avengers.net", Role.Employee);
+		Reimbursement r1 = new Reimbursement(1, 1000, null, null, "test", 20, 10, Status.Pending, ReimbType.Travel,
+				null);
+		Reimbursement r2 = new Reimbursement(2, 1000, null, null, "test", 20, 10, Status.Approved, ReimbType.Travel,
+				null);
 		List<Reimbursement> rts = new ArrayList<Reimbursement>();
 		rts.add(r1);
 		rts.add(r2);
@@ -159,20 +166,20 @@ public class EmployeeServiceTests {
 		rserv.sumbitReimbursementRequest(r1);
 		rserv.sumbitReimbursementRequest(r2);
 		List<Reimbursement> actual = rserv.getPendingReimbursementRequest(pk);
-		
-		List<Reimbursement>  expected = rts;
-	
+
+		List<Reimbursement> expected = rts;
+
 		assertNotEquals(expected, actual);
-		
-		
-	
+
 	}
-	
+
 	@Test
 	public void testgetResolvedReimbursementRequest_When2RtWithResolvedRequest_return2Rt() {
-		Employee e1 = new Employee(20,"Bruce","Banner","thehulk","green", "bigguy@avengers.net", Role.Employee);
-		Reimbursement r1 = new Reimbursement(1,1000,null,null,"test",20, 10, Status.Denied,ReimbType.Travel, null);
-		Reimbursement r2 = new Reimbursement(2,1000,null,null,"test",20, 10, Status.Approved,ReimbType.Travel, null);
+		Employee e1 = new Employee(20, "Bruce", "Banner", "thehulk", "green", "bigguy@avengers.net", Role.Employee);
+		Reimbursement r1 = new Reimbursement(1, 1000, null, null, "test", 20, 10, Status.Denied, ReimbType.Travel,
+				null);
+		Reimbursement r2 = new Reimbursement(2, 1000, null, null, "test", 20, 10, Status.Approved, ReimbType.Travel,
+				null);
 		List<Reimbursement> rts = new ArrayList<Reimbursement>();
 		rts.add(r1);
 		rts.add(r2);
@@ -184,23 +191,23 @@ public class EmployeeServiceTests {
 		rserv.sumbitReimbursementRequest(r1);
 		rserv.sumbitReimbursementRequest(r2);
 		List<Reimbursement> actual = rserv.getResolvedReimbursementRequest(pk);
-		
-		List<Reimbursement>  expected = rts;
-	
-		assertEquals(expected,actual);
-		
-		
-		
-	
+
+		List<Reimbursement> expected = rts;
+
+		assertEquals(expected, actual);
+
 	}
+
 	@Test
 	public void testgetResolvedReimbursementRequest_WhenOnlyOneRtWithStatusApproved_returnRtWithId2() {
-		
-		Employee e1 = new Employee(20,"Bruce","Banner","thehulk","green", "bigguy@avengers.net", Role.Employee);
-		Reimbursement r1 = new Reimbursement(1,1000,null,null,"test",20, 10, Status.Pending,ReimbType.Travel, null);
-		Reimbursement r2 = new Reimbursement(2,1000,null,null,"test",20, 10, Status.Approved,ReimbType.Travel, null);
+
+		Employee e1 = new Employee(20, "Bruce", "Banner", "thehulk", "green", "bigguy@avengers.net", Role.Employee);
+		Reimbursement r1 = new Reimbursement(1, 1000, null, null, "test", 20, 10, Status.Pending, ReimbType.Travel,
+				null);
+		Reimbursement r2 = new Reimbursement(2, 1000, null, null, "test", 20, 10, Status.Approved, ReimbType.Travel,
+				null);
 		List<Reimbursement> rts = new ArrayList<Reimbursement>();
-		
+
 		rts.add(r2);
 		when(emockdao.insert(e1)).thenReturn(20);
 		when(rmockdao.insert(r1)).thenReturn(1);
@@ -210,53 +217,51 @@ public class EmployeeServiceTests {
 		rserv.sumbitReimbursementRequest(r1);
 		rserv.sumbitReimbursementRequest(r2);
 		List<Reimbursement> actual = rserv.getResolvedReimbursementRequest(pk);
-		
-		List<Reimbursement>  expected = rts;
+
+		List<Reimbursement> expected = rts;
 		assertEquals(expected, actual);
-		
-		
-		
-	
+
 	}
+
 	@Test
 	public void testgetInfo_WhenEmpWithId20inDB_returnEmpWithId20() {
-		Employee e1 = new Employee(20,"Bruce","Banner","thehulk","green", "bigguy@avengers.net", Role.Employee);
+		Employee e1 = new Employee(20, "Bruce", "Banner", "thehulk", "green", "bigguy@avengers.net", Role.Employee);
 		when(emockdao.findEmployeeById(e1.getId())).thenReturn(e1);
 		Employee expected = e1;
 		eserv.register(e1);
 		Employee actual = eserv.getInfo(e1.getId());
 
-		assertEquals(expected,actual);
-		
-		
+		assertEquals(expected, actual);
+
 	}
+
 	@Test
 	public void testgetInfo_WhenNoOneInDB_returnEmptyEmpObj() {
-		
+
 		when(emockdao.findEmployeeById(20)).thenReturn(new Employee());
 		Employee expected = new Employee();
 		Employee actual = eserv.getInfo(20);
-		assertEquals(expected,actual);
-		
-		
+		assertEquals(expected, actual);
+
 	}
+
 	@Test
 	public void testupdateInfo_WhenEmpWithId20InDB_returnTrue() {
-		Employee e1 = new Employee(20,"Bruce","Banner","thehulk","green", "bigguy@avengers.net", Role.Employee);
+		Employee e1 = new Employee(20, "Bruce", "Banner", "thehulk", "green", "bigguy@avengers.net", Role.Employee);
 
 		when(emockdao.updateEmployee(e1)).thenReturn(true);
 		boolean expected = true;
 		boolean actual = eserv.updateInfo(e1);
-		assertEquals(expected,actual);
+		assertEquals(expected, actual);
 	}
+
 	public void testupdateInfo_WhenEmpWithIdLessThan0InDB_returnFalse() {
-		Employee e1 = new Employee(-1,"Bruce","Banner","thehulk","green", "bigguy@avengers.net", Role.Employee);
+		Employee e1 = new Employee(-1, "Bruce", "Banner", "thehulk", "green", "bigguy@avengers.net", Role.Employee);
 
 		when(emockdao.updateEmployee(e1)).thenReturn(false);
 		boolean expected = false;
 		boolean actual = eserv.updateInfo(e1);
-		assertEquals(expected,actual);
+		assertEquals(expected, actual);
 	}
-	
 
 }
