@@ -18,11 +18,15 @@ public class Test {
 //		System.out.println(rdao.findReimbursementbyAuthorId(5));
 		EmployeeDao edao = new EmployeeDao();
 		Employee e1 = new Employee(2, "Bruce", "Banner", "thehulk", "green", "bigguy@avengers.net", Role.Employee);
-		Reimbursement r1 = new Reimbursement(2, 1000, null, null, "test", 20, 10, Status.Pending, ReimbType.Travel,
-				null);
-//		System.out.println(rdao.deleteReimbursement(1));
 		
-		System.out.println(edao.deleteEmployee(2));
+		Reimbursement r1 = new Reimbursement( 5,5555, "change", 30, 10, Status.Approved ,ReimbType.Travel);
+		Reimbursement r2 = new Reimbursement( 6666, "change", 30 ,ReimbType.Travel);
+//		System.out.println(rdao.deleteReimbursement(1));	
+		
+//		System.out.println(edao.deleteEmployee(2));
+//		rdao.insert(r2);
+		System.out.println(rdao.updateReimbursement(r1));
+		
 	}
 
 }
