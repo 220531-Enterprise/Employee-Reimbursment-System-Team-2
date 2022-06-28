@@ -54,17 +54,17 @@ public class Reimbursement { //TODO set up Hibernate for this class
 	@Column(name="resolver_id")
 	private int resolverId;
 	
-	@Enumerated(EnumType.STRING)
+	
 	private Status status= Status.Pending;
 	
-	@Enumerated(EnumType.STRING)
+	
 	private ReimbType type;
 	
 	
-	// This is for the photo but if it actually works I'll be amazed
-	@Lob
-    @Column(name = "reciept_img", columnDefinition="BLOB")
-    private byte[] reciept_img;
+//	 This is for the photo but if it actually works I'll be amazed
+//	@Lob
+//    @Column(name = "reciept_img", columnDefinition="BLOB")
+//    private byte[] reciept_img;
 	
 	
 	//CONSTRUCTORS//////////
@@ -81,7 +81,7 @@ public class Reimbursement { //TODO set up Hibernate for this class
 		this.resolverId = resolverId;
 		this.status = status;
 		this.type = type;
-		this.reciept_img = reciept_img;
+		
 	}
 	
 	
@@ -116,15 +116,7 @@ public class Reimbursement { //TODO set up Hibernate for this class
 	
 	//GETTERS AND SETTERS/////////////////////
 	
-	public  byte[] getReciept_img() {
-		return reciept_img;
-	}
-	
-	
-	public void setReciept_img(byte[] reciept_img) {
-		this.reciept_img = reciept_img;
-	}
-	
+
 	
 
 
@@ -193,12 +185,7 @@ public class Reimbursement { //TODO set up Hibernate for this class
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Arrays.hashCode(reciept_img);
-		result = prime * result + Objects.hash(amount, authorId, dateResolved, dateSubmitted, description, id,
-				resolverId, status, type);
-		return result;
+		return Objects.hash(amount, authorId, dateResolved, dateSubmitted, description, id, resolverId, status, type);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -211,17 +198,14 @@ public class Reimbursement { //TODO set up Hibernate for this class
 		Reimbursement other = (Reimbursement) obj;
 		return Double.doubleToLongBits(amount) == Double.doubleToLongBits(other.amount) && authorId == other.authorId
 				&& Objects.equals(dateResolved, other.dateResolved)
-				&& Objects.equals(dateSubmitted, other.dateSubmitted)
-				&& Objects.equals(description, other.description) && id == other.id
-				&& Arrays.equals(reciept_img, other.reciept_img) && resolverId == other.resolverId
-				&& status == other.status && type == other.type;
+				&& Objects.equals(dateSubmitted, other.dateSubmitted) && Objects.equals(description, other.description)
+				&& id == other.id && resolverId == other.resolverId && status == other.status && type == other.type;
 	}
 	@Override
 	public String toString() {
-		return "Reimbursement [id=" + id + ", amount=" + amount + ", date_submitted=" + dateSubmitted
-				+ ", date_resolved=" + dateResolved + ", description=" + description + ", authorId=" + authorId
-				+ ", resolverId=" + resolverId + ", status=" + status + ", type=" + type + ", reciept_img="
-				+ Arrays.toString(reciept_img) + "]";
+		return "Reimbursement [id=" + id + ", amount=" + amount + ", dateSubmitted=" + dateSubmitted + ", dateResolved="
+				+ dateResolved + ", description=" + description + ", authorId=" + authorId + ", resolverId="
+				+ resolverId + ", status=" + status + ", type=" + type + "]";
 	}
 	
 	
