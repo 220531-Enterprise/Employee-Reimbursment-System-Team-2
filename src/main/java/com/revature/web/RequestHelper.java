@@ -90,7 +90,11 @@ public class RequestHelper {
 			session.setAttribute(currentUser, e);
 			
 			// alternatively you can redirect to another resource instead of printing out dynamically
+			if(e.getRole() == Role.Employee) {
 			request.getRequestDispatcher("welcome.html").forward(request, response);
+			} else if (e.getRole() == Role.Manager) {
+				request.getRequestDispatcher("manager-home.html").forward(request, response);
+			}
 		} else {
 			
 			response.setContentType(htmlPage);
@@ -138,8 +142,8 @@ public class RequestHelper {
 		
 		Reimbursement reimb = new Reimbursement(amount, description, user.getId(), type);
 		
-		//int pk = rserv.insert(reimb); TODO uncomment when service is working
-		int pk = (1); // delete this when service is working
+		int pk = rserv.insert(reimb); //TODO uncomment when service is working
+		//int pk = (1); // delete this when service is working
 		
 		PrintWriter out = response.getWriter();
 		if (pk > 0) {
@@ -178,6 +182,7 @@ public class RequestHelper {
 		String lastName = request.getParameter("lastname");
 		String password = request.getParameter("password");
 		String email = request.getParameter("email");
+		
 		HttpSession session = request.getSession();
 		Employee oldUser = (Employee) session.getAttribute(currentUser);
 		

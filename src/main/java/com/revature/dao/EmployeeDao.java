@@ -55,7 +55,7 @@ public class EmployeeDao {
 		} catch (HibernateException e) {
 			e.printStackTrace();
 			return emps;
-		}
+		} 
 		return emps;
 	}
 
@@ -89,7 +89,7 @@ public class EmployeeDao {
 
 			try {
 				tx = session.beginTransaction();
-				session.update(emp);
+				session.saveOrUpdate(emp);
 				tx.commit();
 				return true;
 			} catch (HibernateException e) {
