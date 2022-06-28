@@ -84,20 +84,21 @@ public class Reimbursement { //TODO set up Hibernate for this class
 		
 	}
 	
-	
-	public Reimbursement(int id, double amount, String description, int authorId,
-			int resolverId,  ReimbType type) {
+	// update status
+	public Reimbursement( int id , double amount, String description, int authorId,
+			int resolverId, Status status ,ReimbType type) {
 		super();
 		this.id = id;
 		this.amount = amount;
-		this.dateResolved = null;
 		this.description = description;
 		this.authorId = authorId;
 		this.resolverId = resolverId;
+		this.status = status;
 		this.type = type;
 		
 		
 	}
+	// creation constructor
 	public Reimbursement(double amount, String description, int authorId,
 			 ReimbType type) {
 		super();
@@ -106,6 +107,7 @@ public class Reimbursement { //TODO set up Hibernate for this class
 		this.dateResolved = null;
 		this.description = description;
 		this.authorId = authorId;
+		this.status = Status.Pending;
 		this.type = type;
 		
 		

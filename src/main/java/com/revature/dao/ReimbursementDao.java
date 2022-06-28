@@ -102,6 +102,7 @@ public class ReimbursementDao {
 
 			try {
 				tx = session.beginTransaction();
+				
 				session.update(r);
 				tx.commit();
 				return true;
