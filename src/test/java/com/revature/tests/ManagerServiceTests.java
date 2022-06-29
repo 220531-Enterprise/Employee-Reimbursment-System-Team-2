@@ -32,7 +32,7 @@ public class ManagerServiceTests {
 	public void setup() {
 		mmockdao = mock(EmployeeDao.class);
 		rmockdao = mock(ReimbursementDao.class);
-		mserv = new ManagerService(mmockdao);
+		mserv = new ManagerService(mmockdao,rmockdao);
 		rserv = new EmployeeService(rmockdao);
 
 	}
@@ -141,16 +141,15 @@ public class ManagerServiceTests {
 	}
 	@Test
 	public void testupdateReimbursementStatus_success() {
-		Reimbursement r1 = new Reimbursement(1, 1000, null, null, "test", 20, 10, Status.Pending, ReimbType.Travel,
+		Reimbursement r1 = new Reimbursement(1, 1000, null, null, "test", 20, 10, Status.Approved, ReimbType.Travel,
 		null);
 
 		when(rmockdao.findReimbursementbyId(r1.getId())).thenReturn(r1);
-		
+		when(rmockdao.updateReimbursement(r1)).thenReturn(true);
 		boolean actual = true;
 		boolean expected = mserv.updateReimbursementStatus(r1.getId(), Status.Approved);
-		if (rmockdao.findReimbursementbyId(r1.getId()) == null) {
-			expected = false;
-		}
+		System.out.println(expected);
+		System.out.println(actual);
 		assertEquals(expected, actual);
 	}
 
@@ -164,23 +163,104 @@ public class ManagerServiceTests {
 				null);
 		Reimbursement r2 = new Reimbursement(2, 1000, null, null, "test", 20, 10, Status.Approved, ReimbType.Travel,
 				null);
+		Employee e1 = new Employee(20, "Bruce", "Banner", "thehulk", "green", "bigguy@avengers.net", Role.Employee);
+
 		List<Reimbursement> rts = new ArrayList<Reimbursement>();
 		rts.add(r1);
 		List<Reimbursement> rts2 = new ArrayList<Reimbursement>();
 		rts2.add(r1);
 		rts2.add(r2);
+		List<Employee> emps = new ArrayList<Employee>();
+		emps.add(e1);
 	
+		List<Reimbursement> expected = rts;
 		when(rmockdao.findAll()).thenReturn(rts2);
-
-		List<Reimbursement> expected = rts2;
-		
+		when(mmockdao.findAll()).thenReturn(emps);
 		List<Reimbursement> actual = mserv.getAllEmployeesPendingReimbursementRequest();
-//		System.out.println(expected);
-//		System.out.println(actual);
+
+		
+		assertEquals(expected, actual);
+	}
+	@Test
+	public void testgetAllEmployeesPendingReimbursementRequest_When1MngrWithPendingReimbursementRequestInDB_returnListObj() {
+
+		
+		Reimbursement r1 = new Reimbursement(1, 1000, null, null, "test", 20, 10, Status.Pending, ReimbType.Travel,
+				null);
+		Reimbursement r2 = new Reimbursement(2, 1000, null, null, "test", 20, 10, Status.Approved, ReimbType.Travel,
+				null);
+		Employee e1 = new Employee(20, "Bruce", "Banner", "thehulk", "green", "bigguy@avengers.net", Role.Manager);
+
+		List<Reimbursement> rts = new ArrayList<Reimbursement>();
+		rts.add(r1);
+		List<Reimbursement> rts2 = new ArrayList<Reimbursement>();
+		rts2.add(r1);
+		rts2.add(r2);
+		List<Employee> emps = new ArrayList<Employee>();
+		emps.add(e1);
 	
+		List<Reimbursement> expected = new ArrayList<Reimbursement>();;
+		when(rmockdao.findAll()).thenReturn(rts2);
+		when(mmockdao.findAll()).thenReturn(emps);
+		List<Reimbursement> actual = mserv.getAllEmployeesPendingReimbursementRequest();
+
+		
 		assertEquals(expected, actual);
 	}
 	
 	
+	
+	@Test
+	public void testgetAllEmployeeResolvedReimbursementRequest_When1EmpWithApprovedReimbursementRequestInDB_returnListObj() {
+
+		
+		Reimbursement r1 = new Reimbursement(1, 1000, null, null, "test", 20, 10, Status.Pending, ReimbType.Travel,
+				null);
+		Reimbursement r2 = new Reimbursement(2, 1000, null, null, "test", 20, 10, Status.Approved, ReimbType.Travel,
+				null);
+		Employee e1 = new Employee(20, "Bruce", "Banner", "thehulk", "green", "bigguy@avengers.net", Role.Employee);
+
+		List<Reimbursement> rts = new ArrayList<Reimbursement>();
+		rts.add(r2);
+		List<Reimbursement> rts2 = new ArrayList<Reimbursement>();
+		rts2.add(r1);
+		rts2.add(r2);
+		List<Employee> emps = new ArrayList<Employee>();
+		emps.add(e1);
+	
+		List<Reimbursement> expected = rts;
+		when(rmockdao.findAll()).thenReturn(rts2);
+		when(mmockdao.findAll()).thenReturn(emps);
+		List<Reimbursement> actual = mserv.getAllEmployeeResolvedReimbursementRequest();
+	
+		
+		assertEquals(expected, actual);
+	}
+	@Test
+	public void testgetAllEmployeeResolvedReimbursementRequest_When1MngrWithApprovedReimbursementRequestInDB_returnListObj() {
+
+		
+		Reimbursement r1 = new Reimbursement(1, 1000, null, null, "test", 20, 10, Status.Pending, ReimbType.Travel,
+				null);
+		Reimbursement r2 = new Reimbursement(2, 1000, null, null, "test", 20, 10, Status.Approved, ReimbType.Travel,
+				null);
+		Employee e1 = new Employee(20, "Bruce", "Banner", "thehulk", "green", "bigguy@avengers.net", Role.Manager);
+
+		List<Reimbursement> rts = new ArrayList<Reimbursement>();
+		rts.add(r2);
+		List<Reimbursement> rts2 = new ArrayList<Reimbursement>();
+		rts2.add(r1);
+		rts2.add(r2);
+		List<Employee> emps = new ArrayList<Employee>();
+		emps.add(e1);
+	
+		List<Reimbursement> expected = new ArrayList<Reimbursement>();
+		when(rmockdao.findAll()).thenReturn(rts2);
+		when(mmockdao.findAll()).thenReturn(emps);
+		List<Reimbursement> actual = mserv.getAllEmployeeResolvedReimbursementRequest();
+	
+		
+		assertEquals(expected, actual);
+	}
 
 }

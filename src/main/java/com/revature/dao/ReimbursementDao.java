@@ -29,9 +29,7 @@ public class ReimbursementDao {
 				tx.rollback();
 			e.printStackTrace();
 
-		} finally {
-			ses.close();
-		}
+		} 
 		return pk;
 
 	}
@@ -67,9 +65,7 @@ public class ReimbursementDao {
 			if (tx != null)
 				tx.rollback();
 			e.printStackTrace();
-		} finally {
-			session.close();
-		}
+		} 
 		return r;
 	}
 
@@ -111,9 +107,7 @@ public class ReimbursementDao {
 					tx.rollback();
 				e.printStackTrace();
 				return false;
-			} finally {
-				session.close();
-			}
+			} 
 		}
 	}
 
@@ -136,9 +130,7 @@ public class ReimbursementDao {
 					tx.rollback();
 				e.printStackTrace();
 				return false;
-			} finally {
-				session.close();
-			}
+			} 
 		}
 	}
 

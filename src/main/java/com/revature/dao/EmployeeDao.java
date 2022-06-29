@@ -34,9 +34,7 @@ public class EmployeeDao {
 				tx.rollback();
 			e.printStackTrace();
 
-		} finally {
-			ses.close();
-		}
+		} 
 		
 
 		// return the pk
@@ -72,9 +70,7 @@ public class EmployeeDao {
 			if (tx != null)
 				tx.rollback();
 			e.printStackTrace();
-		} finally {
-			session.close();
-		}
+		} 
 		
 		return emp;
 	}
@@ -97,9 +93,7 @@ public class EmployeeDao {
 					tx.rollback();
 				e.printStackTrace();
 				return false;
-			} finally {
-				session.close();
-			}
+			} 
 		}
 
 	}
@@ -123,9 +117,7 @@ public class EmployeeDao {
 					tx.rollback();
 				e.printStackTrace();
 				return false;
-			} finally {
-				session.close();
-			}
+			} 
 		}
 	}
 

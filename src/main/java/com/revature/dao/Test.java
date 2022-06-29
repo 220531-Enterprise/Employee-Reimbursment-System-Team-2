@@ -13,19 +13,31 @@ public class Test {
 		// TODO Auto-generated method stub
 		
 		ReimbursementDao rdao = new ReimbursementDao();
+		EmployeeDao edao = new EmployeeDao();
+		ManagerService mserv = new ManagerService(edao,rdao);
+		
+//		mserv.getAllEmployeeResolvedReimbursementRequest();
+		
 //		System.out.println(rdao.findAll());
 //		System.out.println(rdao.findReimbursementbyId(1));
 //		System.out.println(rdao.findReimbursementbyAuthorId(5));
-		EmployeeDao edao = new EmployeeDao();
-		Employee e1 = new Employee(2, "Bruce", "Banner", "thehulk", "green", "bigguy@avengers.net", Role.Employee);
+
+		Employee e1 = new Employee(5, "Bruce", "Banner", "thehulk", "green", "bigguy@avengers.net", Role.Manager);
 		
-		Reimbursement r1 = new Reimbursement( 5,5555, "change", 30, 10, Status.Approved ,ReimbType.Travel);
-		Reimbursement r2 = new Reimbursement( 6666, "change", 30 ,ReimbType.Travel);
+		Reimbursement r1 = new Reimbursement( 7,5555, "change", 4, 10, Status.Approved ,ReimbType.Travel);
+		Reimbursement r2 = new Reimbursement( 6666, "change", 5 ,ReimbType.Travel);
+//		edao.updateEmployee(e1);
 //		System.out.println(rdao.deleteReimbursement(1));	
-		
+//		rdao.updateReimbursement(r1);
 //		System.out.println(edao.deleteEmployee(2));
+		rdao.updateReimbursement(r1);
 //		rdao.insert(r2);
-		System.out.println(rdao.updateReimbursement(r1));
+//		System.out.println(rdao.updateReimbursement(r1));
+	
+//		System.out.println(rdao.findReimbursementbyId(2));
+		
+		System.out.println(mserv.getAllEmployeeResolvedReimbursementRequest());
+//		System.out.println(rdao.findAll());
 		
 	}
 

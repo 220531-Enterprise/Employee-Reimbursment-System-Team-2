@@ -34,7 +34,7 @@ public class ReimbursementServiceTest {
 	public void setup() {
 		mmockdao = mock(EmployeeDao.class);
 		rmockdao = mock(ReimbursementDao.class);
-		mserv = new ManagerService(mmockdao);
+		mserv = new ManagerService(mmockdao,rmockdao);
 		rserv = new EmployeeService(rmockdao);
 		rrserv = new ReimbursementService(rmockdao);
 
