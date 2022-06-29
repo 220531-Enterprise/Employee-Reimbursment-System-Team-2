@@ -1,0 +1,53 @@
+a {
+    font-size: 1.2rem;
+    color:rgb(61, 55, 55);
+}
+
+
+
+h1 {
+    font-size: 4 rem;
+}
+
+.logo {
+    width: 8.5%;
+}
+
+ul {
+    margin-top: 10px;
+    margin-left: 30px;
+}
+
+li {
+    margin: auto 10px;
+}
+
+h3 {
+    
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.4rem;
+    color: gold;
+    padding: 7px 0 2px 15px;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.icon {
+    width:3.5%;
+    margin: 5px 0 0 15px;
+}
+
+.username{
+    margin: 17px 0 0 17px;
+}
+
+.title-bar {
+    background-color: black;
+}
+
+.role {
+    color:aqua;
+    display: inline-block;
+    margin: 0 0 5px 740px;
+    font-size: 1rem;
+}
