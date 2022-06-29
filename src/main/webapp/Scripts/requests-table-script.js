@@ -1,43 +1,16 @@
-let table = document.querySelector('table');
+console.log('js working')
+let table = document.getElementById('request-table');
 let pendingButton = document.getElementById('pending_requests')
-let approvedButton = document.getElementById('approved_requests')
-let deniedButton = document.getElementById('denied_requests')
+//let approvedButton = document.getElementById('approved_requests')
+//let deniedButton = document.getElementById('denied_requests')
 let reimbs = fetchReimbs();
+reimbs.then(data => buildTable(data))
 
 pendingButton.addEventListener('click', fetchPending);
-approvedButton.addEventListener('click', fetchApproved);
-deniedButton.addEventListener('click', fetchDenied);
+//approvedButton.addEventListener('click', fetchApproved);
+//deniedButton.addEventListener('click', fetchDenied);
 
 function buildTable(data) {
-    let header = document.createElement('thead');
-    let headerRow = document.createElement('tr'); 
-    header.appendChild(headerRow);
-    table.appendChild(header); 
-
-    let th1 = document.createElement('th');
-    th1.innerHTML = 'Request Date'
-
-    let th2 = document.createElement('th');
-    th1.innerHTML = 'Amount'
-
-    let th3 = document.createElement('th');
-    th1.innerHTML = 'Description'
-
-    let th4 = document.createElement('th');
-    th1.innerHTML = 'Catagory'
-
-    let th5 = document.createElement('th');
-    th1.innerHTML = 'Status'
-
-    let th6 = document.createElement('th');
-    th1.innerHTML = 'Approved By'
-
-    headerRow.appendChild(th1);
-    headerRow.appendChild(th2);
-    headerRow.appendChild(th3);
-    headerRow.appendChild(th4);
-    headerRow.appendChild(th5);
-    headerRow.appendChild(th6);
 
     data.forEach(r => {
         let row = document.createElement('tr');
@@ -66,12 +39,14 @@ function buildTable(data) {
     });
 }
 
-function fetchReimbs() {
+async function fetchReimbs() {
+	console.log('fetching');
     let hostname = window.location.hostname;
-    return fetch(`http://${hostname}/employee-servlet-app/find-requests`)
-        .then(response => response.json());
+    return fetch(`http://${hostname}:8080/employee-servlet-app/find-requests`)
+    .then(r => r.json());
+    
 }
 
 function fetchPending() { // TODO finish this
-    console.log(reimbs)
+    console.log(reimbs);
 }
