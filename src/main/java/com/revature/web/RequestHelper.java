@@ -142,8 +142,7 @@ public class RequestHelper {
 		
 		Reimbursement reimb = new Reimbursement(amount, description, user.getId(), type);
 		
-		int pk = rserv.insert(reimb); //TODO uncomment when service is working
-		//int pk = (1); // delete this when service is working
+		int pk = rserv.insert(reimb); 
 		
 		PrintWriter out = response.getWriter();
 		if (pk > 0) {
@@ -158,14 +157,18 @@ public class RequestHelper {
 		
 	}
 	public static void processUsersRequests(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		// get current user
 		HttpSession session = request.getSession();
 		Employee user = (Employee) session.getAttribute(currentUser);
+		
 		response.setContentType("application/json");
 		response.addHeader("Access-Control-Allow-Origin", "*");
-		//List<Reimbursement> reimbs = rserv.getByAuthorId(user.getId()); // TODO uncomment when rdao is working
-		//String jsonString = om.writeValueAsString(reimbs);
+		
+		List<Reimbursement> reimbs = rserv.getbyAuthorId(user.getId());
+		System.out.println(reimbs);
+		String jsonString = om.writeValueAsString(reimbs);
 		PrintWriter out = response.getWriter();
-		//out.write(jsonString);
+		out.write(jsonString);
 	}
 	
 	public static void getUserFromSession(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -177,18 +180,27 @@ public class RequestHelper {
 	}
 	
 	public static void updateUserInfo(HttpServletRequest request, HttpServletResponse response) {
+		// grab the inputs from the webpage
 		String username = request.getParameter("username");
 		String firstName = request.getParameter("firstname");
 		String lastName = request.getParameter("lastname");
 		String password = request.getParameter("password");
 		String email = request.getParameter("email");
 		
+		// get the session employee
 		HttpSession session = request.getSession();
-		Employee oldUser = (Employee) session.getAttribute(currentUser);
+		Employee user = (Employee) session.getAttribute(currentUser);
 		
-		Employee updatedEmp = new Employee(oldUser.getId(), firstName, lastName, username, password, email, oldUser.getRole());
-		eserv.updateInfo(updatedEmp);
-		session.setAttribute(currentUser, updatedEmp);
+		// set values to update
+		user.setUsername(username);
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.setPassword(password);
+		user.setEmail(email);
+		
+		// persist the changes and set the updated employee as the session user
+		eserv.updateInfo(user);
+		session.setAttribute(currentUser, user);
 	}
 	
 

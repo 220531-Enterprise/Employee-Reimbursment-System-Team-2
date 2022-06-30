@@ -1,43 +1,16 @@
-let table = document.querySelector('table');
-let pendingButton = document.getElementById('pending_requests')
-let approvedButton = document.getElementById('approved_requests')
-let deniedButton = document.getElementById('denied_requests')
-let reimbs = fetchReimbs();
+console.log('js working')
+let table = document.getElementById('request-table');
+//let pendingButton = document.getElementById('pending_requests')
+//let approvedButton = document.getElementById('approved_requests')
+//let deniedButton = document.getElementById('denied_requests')
+fetchReimbs();
 
-pendingButton.addEventListener('click', fetchPending);
-approvedButton.addEventListener('click', fetchApproved);
-deniedButton.addEventListener('click', fetchDenied);
+
+//pendingButton.addEventListener('click', fetchPending);
+//approvedButton.addEventListener('click', fetchApproved);
+//deniedButton.addEventListener('click', fetchDenied);
 
 function buildTable(data) {
-    let header = document.createElement('thead');
-    let headerRow = document.createElement('tr'); 
-    header.appendChild(headerRow);
-    table.appendChild(header); 
-
-    let th1 = document.createElement('th');
-    th1.innerHTML = 'Request Date'
-
-    let th2 = document.createElement('th');
-    th1.innerHTML = 'Amount'
-
-    let th3 = document.createElement('th');
-    th1.innerHTML = 'Description'
-
-    let th4 = document.createElement('th');
-    th1.innerHTML = 'Catagory'
-
-    let th5 = document.createElement('th');
-    th1.innerHTML = 'Status'
-
-    let th6 = document.createElement('th');
-    th1.innerHTML = 'Approved By'
-
-    headerRow.appendChild(th1);
-    headerRow.appendChild(th2);
-    headerRow.appendChild(th3);
-    headerRow.appendChild(th4);
-    headerRow.appendChild(th5);
-    headerRow.appendChild(th6);
 
     data.forEach(r => {
         let row = document.createElement('tr');
@@ -47,6 +20,13 @@ function buildTable(data) {
         let td4 = document.createElement('td');
         let td5 = document.createElement('td');
         let td6 = document.createElement('td');
+
+        td1.className = 'text-center';
+        td2.className = 'text-center';
+        td3.className = 'text-center';
+        td4.className = 'text-center';
+        td5.className = 'text-center';
+        td6.className = 'text-center';
 
         td1.innerHTML = r.dateSubmitted;
         td2.innerHTML = r.amount;
@@ -66,12 +46,15 @@ function buildTable(data) {
     });
 }
 
-function fetchReimbs() {
+async function fetchReimbs() {
+	console.log('fetching');
     let hostname = window.location.hostname;
-    return fetch(`http://${hostname}/employee-servlet-app/find-requests`)
-        .then(response => response.json());
+    fetch(`http://${hostname}:8080/employee-servlet-app/find-requests`)
+    .then(r => r.json())
+    .then(json => buildTable(json));
+    
 }
 
 function fetchPending() { // TODO finish this
-    console.log(reimbs)
+    console.log(reimbs);
 }
