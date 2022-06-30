@@ -3,6 +3,8 @@ package com.revature.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -56,19 +58,20 @@ public class EmployeeDao {
 		} 
 		return emps;
 	}
-
+	@Transactional
 	public Employee findEmployeeById(int ID) {
-		Session session = HibernateUtil.getSession();
-		Transaction tx = null;
+		
+		
+	
 		Employee emp = new Employee();
 
-		try {
-			tx = session.beginTransaction();
+		try(Session session = HibernateUtil.getSession()) {
+		
+			
 			emp = session.get(Employee.class, ID);
 			emp = (emp == null) ? new Employee(): emp ;
 		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
+		
 			e.printStackTrace();
 		} 
 		

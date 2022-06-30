@@ -22,12 +22,17 @@ public class EmployeeService {
 	 * 
 	 */
 	public EmployeeService(EmployeeDao edao) {
-		
 		this.edao = edao;
+		
 		
 		
 	}
 	public EmployeeService( ReimbursementDao rdao) {
+		this.rdao = rdao;
+		
+	}
+	public EmployeeService(EmployeeDao edao, ReimbursementDao rdao) {
+		this.edao = edao;
 		this.rdao = rdao;
 		
 	}
@@ -64,16 +69,16 @@ public class EmployeeService {
 		
 	}
 	// An Employee can view their pending reimbursement requests
-	public List<Reimbursement> getPendingReimbursementRequest(int authorId){
-		List<Reimbursement> rts = rdao.findReimbursementbyAuthorId(authorId);
+	public List<Reimbursement> getPendingReimbursementRequest(int id){
+		List<Reimbursement> rts = rdao.findReimbursementbyAuthorId(id);
 		rts = rts.stream().filter(rt-> rt.getStatus().toString().equals("Pending"))
 		.collect(Collectors.toList());		
 		return rts;
 		
 	}
 	// An Employee can view their resolved reimbursement requests
-	public List<Reimbursement> getResolvedReimbursementRequest(int authorId){
-		List<Reimbursement> rts = rdao.findReimbursementbyAuthorId(authorId);
+	public List<Reimbursement> getResolvedReimbursementRequest(int id){
+		List<Reimbursement> rts = rdao.findReimbursementbyAuthorId(id);
 		rts = rts.stream().filter(rt-> (rt.getStatus().toString().equals("Approved")) 
 				|| (rt.getStatus().toString().equals("Denied")) )
 		.collect(Collectors.toList());		
@@ -94,10 +99,8 @@ public class EmployeeService {
 		return edao.updateEmployee(e);
 		
 	}
-	// Use Case: An Employee receives an email when one of their reimbursement requests is resolved (optional)
-	public void getEmailWhenReimbursementRequestsResolved() {
-		// can't come out a solution for now
-	}
+	
+
 	
 	
 	

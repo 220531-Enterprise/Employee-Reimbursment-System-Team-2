@@ -32,6 +32,8 @@ public class ManagerServiceTests {
 	public void setup() {
 		mmockdao = mock(EmployeeDao.class);
 		rmockdao = mock(ReimbursementDao.class);
+		mserv = new ManagerService(mmockdao);
+		mserv = new ManagerService(rmockdao);
 		mserv = new ManagerService(mmockdao,rmockdao);
 		rserv = new EmployeeService(rmockdao);
 
@@ -143,13 +145,22 @@ public class ManagerServiceTests {
 	public void testupdateReimbursementStatus_success() {
 		Reimbursement r1 = new Reimbursement(1, 1000, null, null, "test", 20, 10, Status.Approved, ReimbType.Travel,
 		null);
-
+		String email = "chenx23333@gmail.com";
+		Reimbursement r2 =  new Reimbursement();
+		r2.setId(r1.getId());
+		r2.setAmount(r1.getAmount());
+		r2.setDate_submitted(r1.getDate_submitted());
+		r2.setDate_resolved(r2.getDate_resolved());
+		r2.setDescription(r1.getDescription());
+		r2.setAuthorId(r1.getAuthorId());
+		r2.setResolverId(r1.getResolverId());
+		r2.setStatus(r1.getStatus());
+		r2.setType(r1.getType());
 		when(rmockdao.findReimbursementbyId(r1.getId())).thenReturn(r1);
 		when(rmockdao.updateReimbursement(r1)).thenReturn(true);
 		boolean actual = true;
-		boolean expected = mserv.updateReimbursementStatus(r1.getId(), Status.Approved);
-		System.out.println(expected);
-		System.out.println(actual);
+		boolean expected = mserv.updateReimbursementStatus(r1.getId(), Status.Approved,email);
+	
 		assertEquals(expected, actual);
 	}
 
@@ -262,5 +273,18 @@ public class ManagerServiceTests {
 		
 		assertEquals(expected, actual);
 	}
+	
+	@Test
+	public void testgetReimbursementRequestByEmployee_success() {
+		Reimbursement r1 = new Reimbursement(1, 1000, null, null, "test", 20, 10, Status.Pending, ReimbType.Travel,
+				null);
+		List<Reimbursement> rts = new ArrayList<Reimbursement>();
+		rts.add(r1);
+		when(mserv.getReimbursementRequestByEmployee(20)).thenReturn(rts);
+		List<Reimbursement> actual = rts;
+		List<Reimbursement> expected = mserv.getReimbursementRequestByEmployee(20);
+		assertEquals(expected, actual);
+	}
+
 
 }

@@ -3,7 +3,16 @@ package com.revature.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.stream.Collectors;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import com.revature.dao.EmployeeDao;
 import com.revature.dao.ReimbursementDao;
@@ -15,6 +24,18 @@ public class ManagerService {
 
 	private EmployeeDao mdao;
 	private ReimbursementDao rdao;
+	public ManagerService(EmployeeDao mdao) {
+
+		this.mdao = mdao;
+	
+
+	}
+	public ManagerService(ReimbursementDao rdao) {
+
+	
+		this.rdao = rdao;
+
+	}
 	
 	public ManagerService(EmployeeDao mdao,ReimbursementDao rdao) {
 
@@ -48,13 +69,18 @@ public class ManagerService {
 	}
 
 	// Use Case: A Manager can approve/deny pending reimbursement requests
-	public boolean updateReimbursementStatus(int id, Status status) {
+	// Use Case: An Employee receives an email when one of their reimbursement requests is resolved (optional)
+	public boolean updateReimbursementStatus(int id, Status status, String email) {
 
 		Reimbursement r = rdao.findReimbursementbyId(id);
 		if (r == null)
 			return false;
 		r.setStatus(status);
-
+		if (!status.toString().equals("Pending")) {
+			sendEmail(email);
+		}
+		
+		
 		return rdao.updateReimbursement(r);
 
 	}
@@ -111,9 +137,69 @@ public class ManagerService {
 	}
 
 	// Use Case: A Manager can view reimbursement requests from a single Employee
-	public Reimbursement getReimbursementRequestByEmployee(int id) {
-		return rdao.findReimbursementbyId(id);
+	public List<Reimbursement> getReimbursementRequestByEmployee(int id) {
+		return rdao.findReimbursementbyAuthorId(id);
 
+	}
+	
+	public boolean sendEmail(String receiver) {
+		 // Recipient's email ID needs to be mentioned.
+        String to = receiver;
+
+        // Sender's email ID needs to be mentioned
+        String from = "ahhaahhahaha233@gmail.com";
+
+        // Assuming you are sending email from through gmails smtp
+        String host = "smtp.gmail.com";
+
+        // Get system properties
+        Properties properties = System.getProperties();
+
+        // Setup mail server
+        properties.put("mail.smtp.host", host);
+        properties.put("mail.smtp.port", "465");
+        properties.put("mail.smtp.ssl.enable", "true");
+        properties.put("mail.smtp.auth", "true");
+
+        // Get the Session object.// and pass username and password
+        Session session = Session.getInstance(properties, new javax.mail.Authenticator() {
+
+            protected PasswordAuthentication getPasswordAuthentication() {
+
+                return new PasswordAuthentication("ahhaahhahaha233@gmail.com", "xjigivladkawavqo");
+
+            }
+
+        });
+
+        // Used to debug SMTP issues
+        session.setDebug(true);
+
+        try {
+            // Create a default MimeMessage object.
+            MimeMessage message = new MimeMessage(session);
+
+            // Set From: header field of the header.
+            message.setFrom(new InternetAddress(from));
+
+            // Set To: header field of the header.
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+
+            // Set Subject: header field
+            message.setSubject("Status of reimbursement requests");
+
+            // Now set the actual message
+            message.setText("Your reimbursement requests is resolved");
+
+            System.out.println("sending...");
+            // Send message
+            Transport.send(message);
+            System.out.println("Sent message successfully....");
+            return true;
+        } catch (MessagingException mex) {
+            mex.printStackTrace();
+        }
+		return false;
 	}
 
 }

@@ -54,18 +54,18 @@ public class ReimbursementDao {
 
 	public Reimbursement findReimbursementbyId(int ID) {
 		Session session = HibernateUtil.getSession();
-		Transaction tx = null;
+	
 		Reimbursement r = new Reimbursement();
 
 		try {
-			tx = session.beginTransaction();
+		
 			r = session.get(Reimbursement.class, ID);
 
 		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
+		
 			e.printStackTrace();
 		} 
+
 		return r;
 	}
 
@@ -73,16 +73,15 @@ public class ReimbursementDao {
 	public List<Reimbursement> findReimbursementbyAuthorId(int authorId) {
 
 		Session ses = HibernateUtil.getSession();
-		Transaction tx = null;
+		
 		List<Reimbursement> rts = new ArrayList<Reimbursement>();
 
 		try {
-			tx = ses.beginTransaction();
+			
 			rts = (ArrayList<Reimbursement>) ses.createQuery("from Reimbursement where authorId = '" + authorId + "'",Reimbursement.class).list();
 
 		} catch (HibernateException e) {
-			if (tx != null)
-				tx.rollback();
+		
 			e.printStackTrace();
 		} 
 		return rts;

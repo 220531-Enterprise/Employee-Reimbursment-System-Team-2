@@ -32,6 +32,7 @@ public class EmployeeServiceTests {
 	public void setup() {
 		emockdao = mock(EmployeeDao.class);
 		rmockdao = mock(ReimbursementDao.class);
+		eserv = new EmployeeService(emockdao,rmockdao);
 		eserv = new EmployeeService(emockdao);
 		rserv = new EmployeeService(rmockdao);
 
@@ -248,16 +249,25 @@ public class EmployeeServiceTests {
 	@Test
 	public void testupdateInfo_WhenEmpWithId20InDB_returnTrue() {
 		Employee e1 = new Employee(20, "Bruce", "Banner", "thehulk", "green", "bigguy@avengers.net", Role.Employee);
-
-		when(emockdao.updateEmployee(e1)).thenReturn(true);
+		Employee e2 = new Employee();
+		e2 = new Employee(e1.getFirstName(),e1.getLastName(),e1.getUsername(),e1.getPassword(),e1.getEmail(),e1.getRole());
+		e2 = new Employee(e1.getId(),e1.getFirstName(),e1.getLastName(),e1.getUsername(),e1.getPassword(),e1.getEmail(),e1.getRole());
+		e2.setId(e1.getId());
+		e2.setFirstName(e1.getFirstName());
+		e2.setLastName(e1.getLastName());
+		e2.setUsername(e2.getUsername());
+		e2.setPassword(e1.getPassword());
+		e2.setEmail(e1.getEmail());
+		e2.setRole(e1.getRole());
+		when(emockdao.updateEmployee(e2)).thenReturn(true);
 		boolean expected = true;
-		boolean actual = eserv.updateInfo(e1);
+		boolean actual = eserv.updateInfo(new Employee(e1.getId(),e1.getFirstName(),e1.getLastName(),e1.getUsername(),e1.getPassword(),e1.getEmail(),e1.getRole()));
 		assertEquals(expected, actual);
 	}
 
 	public void testupdateInfo_WhenEmpWithIdLessThan0InDB_returnFalse() {
 		Employee e1 = new Employee(-1, "Bruce", "Banner", "thehulk", "green", "bigguy@avengers.net", Role.Employee);
-
+		
 		when(emockdao.updateEmployee(e1)).thenReturn(false);
 		boolean expected = false;
 		boolean actual = eserv.updateInfo(e1);
