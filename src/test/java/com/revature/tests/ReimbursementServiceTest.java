@@ -1,6 +1,7 @@
 package com.revature.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -62,5 +63,40 @@ public class ReimbursementServiceTest {
 		assertEquals(expected, actual);
 
 	}
+	
+	@Test
+	public void testinset_success() {
+		Reimbursement r1 = new Reimbursement(1, 1000, null, null, "test", 20, 10, Status.Pending, ReimbType.Travel,
+				null);
+	
+	
+	
+		when(rmockdao.insert(r1)).thenReturn(r1.getId());
+		when(rrserv.insert(r1)).thenReturn(r1.getId());
+		int actual = rrserv.insert(r1);
+		int expected = r1.getId();
+		assertEquals(expected, actual);
+
+	}
+	
+	@Test
+	public void testgetByAuthorId_success() {
+		Reimbursement r1 = new Reimbursement(1, 1000, null, null, "test", 20, 10, Status.Pending, ReimbType.Travel,
+				null);
+		Reimbursement r2 = new Reimbursement(2, 1000, null, null, "test", 10, 10, Status.Approved, ReimbType.Travel,
+				null);
+		List<Reimbursement> rts = new ArrayList<Reimbursement>();
+		rts.add(r1);
+		rts.add(r2);
+		List<Reimbursement> rts2 = new ArrayList<Reimbursement>();
+		rts2.add(r1);
+		when(rmockdao.findReimbursementbyAuthorId(20)).thenReturn(rts2);
+		when(rrserv.getbyAuthorId(20)).thenReturn(rts2);
+		List<Reimbursement> actual = rrserv.getbyAuthorId(20);
+		List<Reimbursement> expected = rts;
+		assertNotEquals(expected, actual);
+
+	}
+	
 	
 }
