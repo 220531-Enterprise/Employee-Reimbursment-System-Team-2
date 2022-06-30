@@ -1,12 +1,12 @@
 console.log('js working')
 let table = document.getElementById('request-table');
-let pendingButton = document.getElementById('pending_requests')
+//let pendingButton = document.getElementById('pending_requests')
 //let approvedButton = document.getElementById('approved_requests')
 //let deniedButton = document.getElementById('denied_requests')
-let reimbs = fetchReimbs();
-reimbs.then(data => buildTable(data))
+fetchReimbs();
 
-pendingButton.addEventListener('click', fetchPending);
+
+//pendingButton.addEventListener('click', fetchPending);
 //approvedButton.addEventListener('click', fetchApproved);
 //deniedButton.addEventListener('click', fetchDenied);
 
@@ -20,6 +20,13 @@ function buildTable(data) {
         let td4 = document.createElement('td');
         let td5 = document.createElement('td');
         let td6 = document.createElement('td');
+
+        td1.className = 'text-center';
+        td2.className = 'text-center';
+        td3.className = 'text-center';
+        td4.className = 'text-center';
+        td5.className = 'text-center';
+        td6.className = 'text-center';
 
         td1.innerHTML = r.dateSubmitted;
         td2.innerHTML = r.amount;
@@ -42,8 +49,9 @@ function buildTable(data) {
 async function fetchReimbs() {
 	console.log('fetching');
     let hostname = window.location.hostname;
-    return fetch(`http://${hostname}:8080/employee-servlet-app/find-requests`)
-    .then(r => r.json());
+    fetch(`http://${hostname}:8080/employee-servlet-app/find-requests`)
+    .then(r => r.json())
+    .then(json => buildTable(json));
     
 }
 
