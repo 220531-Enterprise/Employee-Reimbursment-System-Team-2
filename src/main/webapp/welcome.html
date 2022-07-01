@@ -81,23 +81,24 @@
 
     <div class="customemodal" id="account-modal">
       <div class="modal__content">
-          <h2 id="user-name-title"></h2>
-          <i class="fa fa-edit float-right"></i>
-        <label for="username">Username</label>
-        <input name="username" id="user-name" type="text" disabled>
-        <label for="first-name">First Name</label>
-        <input name="firstname" id="first-name" type="text" disabled>
-        <label for="last-name">Last Name</label>
-        <input name="lastname" id="last-name" type="text" disabled>
-        <label for="password">Password</label>
-        <input name="password" id="password" type="password" disabled>
-        <label for="email">Email</label>
-        <input name="email" id="email" type="text" disabled>
+        <h2 id="user-name-title"></h2>
+        <div><i class="fa fa-edit float-right" id="edit-btn"></i></div>
+          <label for="username">Username</label>
+          <input name="username" id="user-name" type="text" disabled>
+          <label for="first-name">First Name</label>
+          <input name="firstname" id="first-name" type="text" disabled>
+          <label for="last-name">Last Name</label>
+          <input name="lastname" id="last-name" type="text" disabled>
+          <label for="password">Password</label>
+          <input name="password" id="password" type="password" disabled>
+          <label for="email">Email</label>
+          <input name="email" id="email" type="text" disabled>
+          <p id="account-message"></p>
       </div>
 
       <div class="modal__actions">
         <button class="btn btn--passive">Cancel</button>
-        <button class="btn btn--success">Save</button>
+        <button class="btn btn--success" disabled>Save</button>
       </div>
       
     </div>
