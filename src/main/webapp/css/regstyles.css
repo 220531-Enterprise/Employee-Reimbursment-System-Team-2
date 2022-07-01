@@ -1,8 +1,10 @@
 
+
+
 button {
     background-color: green;
     color: white;
-    padding: 14px 20px;
+    padding: 10px 20px;
     margin: 8px 0;
     border: none;
     cursor: pointer;
@@ -26,29 +28,28 @@ form {
 input[type=text], input[type=password] {
     width: 100%;
     padding: 12px 20px;
-    margin: 8px 0;
+    margin: 6px 0;
     display: inline-block;
     border: 1px solid #ccc;
     box-sizing: border-box;
-    height: 16px;
+    height: 14px;
   }
   
 /*******CLASS SELECTORS******/
 
 .top-container {
     height: 85px;
-   
     margin-bottom: 10px;
     
 }
 
 .night-div{
-    height: 480px;
+    height: 100%;
 }
 
 .night{
     width: 100%;
-    height: 480px;
+    height: auto;
 }
 
 .beach {
@@ -81,7 +82,7 @@ input[type=text], input[type=password] {
     
     text-align: center;
     position: relative;
-    bottom: 445px;
+    bottom: 510px;
     left: 463px;
     background-color: #ECECEC;
 
@@ -106,7 +107,7 @@ input[type=text], input[type=password] {
 .imgcontainer{
     background-color: #ECECEC;
     text-align: center;
-    margin: 12px 0 6px 0;
+    margin: 10px 0 6px 0;
 }
 
 img.avatar {
@@ -116,7 +117,7 @@ img.avatar {
 
 .container {
     background-color: #ECECEC;
-    padding: 16px;
+    padding: 12px;
 }
 
 span.psw {
