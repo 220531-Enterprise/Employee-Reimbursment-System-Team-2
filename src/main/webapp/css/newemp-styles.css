@@ -10,7 +10,7 @@ h1 {
 }
 
 .logo {
-    width: 8.5%;
+  width: 8rem;
 }
 
 ul {
@@ -18,24 +18,12 @@ ul {
     margin-left: 30px;
 }
 
-li {
-    margin: auto 10px;
-}
-
-h3 {
-    
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 1.4rem;
-    color: gold;
-    padding: 7px 0 2px 15px;
-    display: inline-block;
-    margin-bottom: 5px;
-}
 
 .icon {
-    width:3.5%;
-    margin: 5px 0 0 15px;
+width: 3rem;
+margin: 1rem, 1rem;
 }
+
 
 .username{
     margin: 17px 0 0 17px;
@@ -248,6 +236,7 @@ input:focus {
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
 }
+
 
 #entry-text {
   width: 40rem;

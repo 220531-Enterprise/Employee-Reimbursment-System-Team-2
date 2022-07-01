@@ -28,11 +28,9 @@ public class FrontController extends HttpServlet {
 		switch(URI) {
 		
 		case "login":
-			
 			// invoke some function from the RequestHelper
 			RequestHelper.processLogin(request, response);
 			break;
-			
 		case "employees":
 			RequestHelper.processEmployees(request, response);
 			// invoke some functionality from the request helper which would return all employees
