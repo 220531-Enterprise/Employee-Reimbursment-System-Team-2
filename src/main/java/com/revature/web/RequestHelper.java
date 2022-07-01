@@ -223,8 +223,9 @@ public class RequestHelper {
 		response.addHeader("Access-Control-Allow-Origin", "*");
 		
 		List<Reimbursement> reimbs = rserv.getbyAuthorId(user.getId());
-		System.out.println(reimbs);
+		System.out.println(reimbs.get(4));
 		String jsonString = om.writeValueAsString(reimbs);
+		System.out.println(jsonString);
 		PrintWriter out = response.getWriter();
 		out.write(jsonString);
 	}
