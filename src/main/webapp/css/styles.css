@@ -39,13 +39,14 @@ input[type=text], input[type=password] {
 }
 
 .beach {
-    height: 490px;
+	width: 100%;
+    height: auto;
     background-color: #06283D;  
 }
 
 .beach-img {
-    width: 1246px;
-    height: 490px;
+    width: 100%;
+    height: auto;
     opacity: 0.7;
     display: inline-block;
 }
