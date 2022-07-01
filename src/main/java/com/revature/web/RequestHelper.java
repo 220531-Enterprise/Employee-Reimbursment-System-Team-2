@@ -1,6 +1,8 @@
 package com.revature.web;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.List;
 
@@ -9,13 +11,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.revature.dao.EmployeeDao;
 import com.revature.dao.ReimbursementDao;
 import com.revature.enums.ReimbType;
 import com.revature.enums.Role;
-import com.revature.enums.Status;
 import com.revature.models.Employee;
 import com.revature.models.Reimbursement;
 import com.revature.service.EmployeeService;
@@ -119,43 +125,95 @@ public class RequestHelper {
 	}
 	
 	public static void processReimbursementRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		double amount = Double.parseDouble(request.getParameter("amount"));
-		String reimbType = request.getParameter("type");
-		String description = request.getParameter("description");
+		response.setContentType("application/json");
+		response.addHeader("Access-Control-Allow-Origin", "*");
+
+		System.out.println("in the processReimbursementRequest method within request helper");
 		
+		/**
+		 * We're using GSON here because it's easier to use for parsing a payload.
+		 */
+		Gson gson = new Gson();
+		gson = new GsonBuilder().create();
+		JsonObject payload = new JsonObject();
+
+		JsonParser jsonParser = new JsonParser();
+		// parse the payload of the HTTP request
+		JsonElement root = jsonParser.parse(new InputStreamReader((InputStream) request.getInputStream()));
+		// Transform payload string to json object
+		JsonObject rootobj = root.getAsJsonObject();
+
+		System.out.println(rootobj);
+		
+		// extract properties of JSON object
+		double amount = rootobj.get("amount").getAsDouble();
+		String typeString = rootobj.get("type").getAsString();
+		String description = rootobj.get("description").getAsString();
 		ReimbType type = null;
-		switch (reimbType) {
-			case "Travel":
-				type = ReimbType.Travel;
-				break;
-			case "Supplies":
-				type = ReimbType.Supplies;
-				break;
-			case "Food":
-				type = ReimbType.Food;
-				break;
-		}
+		System.out.println(typeString);
+		
 		HttpSession session = request.getSession();
-		Employee user = (Employee) session.getAttribute("the-user");
+		Employee user = (Employee) session.getAttribute(currentUser);
+		int authorId = user.getId();
+		if (typeString.equals("Food")) {
+			type = ReimbType.Food;
+		} else if (typeString.equals("Travel")) {
+			type = ReimbType.Travel;
+		} else if (typeString.equals("Supplies")) {
+			type = ReimbType.Supplies;
+		} 
+
+		Reimbursement newRequest = new Reimbursement(amount, description, authorId, type);
 		
-		
-		
-		Reimbursement reimb = new Reimbursement(amount, description, user.getId(), type);
-		
-		int pk = rserv.insert(reimb); 
-		
-		PrintWriter out = response.getWriter();
+		// persist the new request
+		int pk = rserv.insert(newRequest);
+		PrintWriter pw = response.getWriter();
+
 		if (pk > 0) {
-			response.setContentType(htmlPage);
-			out.println("Submitted!");
-			out.println("<a href=\"welcome.html\">Back</a>");
+		// return the request movie object to the client
+		String json = gson.toJson(newRequest); // this is what we would use Jackson Object Mapper for
+		pw.write(json);
 		} else {
-			response.setContentType("text/html");
-			out.println("Hmmm... something when wrong, request was not submitted");
-			out.println("<a href=\"welcome.html\">Back</a>");
+			String json = gson.toJson(new Reimbursement());
 		}
 		
-	}
+		//		double amount = Double.parseDouble(request.getParameter("amount"));
+//		String reimbType = request.getParameter("type");
+//		String description = request.getParameter("description");
+//		
+//		ReimbType type = null;
+//		switch (reimbType) {
+//			case "Travel":
+//				type = ReimbType.Travel;
+//				break;
+//			case "Supplies":
+//				type = ReimbType.Supplies;
+//				break;
+//			case "Food":
+//				type = ReimbType.Food;
+//				break;
+//		} 
+//		HttpSession session = request.getSession();
+//		Employee user = (Employee) session.getAttribute("the-user");
+//		
+//		
+//		
+//		Reimbursement reimb = new Reimbursement(amount, description, user.getId(), type);
+//		
+//		int pk = rserv.insert(reimb); 
+//		
+//		PrintWriter out = response.getWriter();
+//		if (pk > 0) {
+//			response.setContentType(htmlPage);
+//			out.println("Submitted!");
+//			out.println("<a href=\"welcome.html\">Back</a>");
+//		} else {
+//			response.setContentType("text/html");
+//			out.println("Hmmm... something when wrong, request was not submitted");
+//			out.println("<a href=\"welcome.html\">Back</a>");
+//		}
+//		
+}
 	public static void processUsersRequests(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		// get current user
 		HttpSession session = request.getSession();
