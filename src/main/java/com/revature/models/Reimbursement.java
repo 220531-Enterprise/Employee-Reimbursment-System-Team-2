@@ -36,7 +36,7 @@ public class Reimbursement { //TODO set up Hibernate for this class
 	
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "create_date")
+	@Column(name = "create_date", nullable=false, updatable=false)
 	private java.util.Date dateSubmitted;
 	
 	@UpdateTimestamp
