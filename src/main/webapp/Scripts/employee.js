@@ -105,9 +105,9 @@ function submitRequest() {
             throw Error('ERROR')
         
         }// if request succeeds print a success Message to the screen and clear input
+        clearRequestModalInput()
         requestMessage.style = "color: green;"
         requestMessage.innerHTML = "Request Submitted successfully!"
-        clearRequestModalInput()
     }).catch(error => {
         console.log(error)
         requestMessage.style = "color: red"
