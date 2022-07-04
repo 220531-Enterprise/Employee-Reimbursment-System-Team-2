@@ -1,45 +1,3 @@
-a {
-    font-size: 1.2rem;
-    color:rgb(61, 55, 55);
-}
-
-
-
-h1 {
-    font-size: 4 rem;
-}
-
-.logo {
-  width: 8rem;
-}
-
-ul {
-    margin-top: 10px;
-    margin-left: 30px;
-}
-
-
-.icon {
-width: 3rem;
-margin: 1rem, 1rem;
-}
-
-
-.username{
-    margin: 17px 0 0 17px;
-}
-
-.title-bar {
-    background-color: black;
-}
-
-.role {
-    color:aqua;
-    display: inline-block;
-    margin: 0 0 5px 740px;
-    font-size: 1rem;
-}
-
 * {
   box-sizing: border-box;
 }
@@ -109,16 +67,8 @@ input:focus {
   background: #fff1c4;
 }
 
-.btn {
-  font: inherit;
-  padding: 0.5rem 1.5rem;
-  border: 1px solid #00329e;
-  background: #00329e;
-  color: white;
-  border-radius: 6px;
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.26);
-  cursor: pointer;
-  margin: 0 0.5rem;
+.logo {
+  width: 8rem;
 }
 
 .btn:hover,
@@ -127,29 +77,13 @@ input:focus {
   border-color: #f67722;
 }
 
-.btn--passive {
-  color: #00329e;
-  background: transparent;
-  border: none;
-  box-shadow: none;
+.btn.btn-outline-primary:hover,
+.btn.btn-outline-primary:active {
+  border-color: #f67722;
+  background-color: inherit;
+  color: #f67722;
 }
 
-.btn--passive:hover,
-.btn--passive:active {
-  background: #aec6f8;
-}
-
-.btn--danger {
-  background: #d30808;
-  color: white;
-  border-color: #d30808;
-}
-
-.btn--danger:hover,
-.btn--danger:active {
-  background: #ff3217;
-  border-color: #ff3217;
-}
 
 .customemodal {
   position: fixed;
@@ -188,74 +122,10 @@ input:focus {
   justify-content: flex-end;
 }
 
-.movie-element {
-  margin: 1rem 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-  border-radius: 10px;
-  display: flex;
-}
-
-.movie-element h2,
-.movie-element p {
-  font-size: 1.25rem;
-  margin: 0;
-}
-
-.movie-element h2 {
-  color: #383838;
-  margin-bottom: 1rem;
-}
-
-.movie-element p {
-  color: white;
-  display: inline;
-  background: #f67722;
-  padding: 0.25rem 1rem;
-  border-radius: 15px;
-}
-
-.movie-element__image {
-  flex: 1;
-  border-radius: 10px 0 0 10px;
-  overflow: hidden;
-}
-
-.movie-element__image img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
-}
-
-.movie-element__info {
-  flex: 2;
-  padding: 1rem;
-}
-
 .card {
   background: white;
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-}
-
-
-#entry-text {
-  width: 40rem;
-  margin: 2rem auto;
-  max-width: 80%;
-  padding: 1rem;
-}
-
-#entry-text p {
-  font-size: 1.5rem;
-  text-align: center;
-}
-
-#movie-list {
-  list-style: none;
-  width: 40rem;
-  max-width: 90%;
-  margin: 1rem auto;
-  padding: 0;
 }
 
 #backdrop {
