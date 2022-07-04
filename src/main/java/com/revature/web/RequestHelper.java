@@ -4,13 +4,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -23,6 +25,7 @@ import com.revature.dao.ReimbursementDao;
 import com.revature.enums.ReimbType;
 import com.revature.enums.Role;
 import com.revature.models.Employee;
+import com.revature.models.ReimbResponseJSON;
 import com.revature.models.Reimbursement;
 import com.revature.service.EmployeeService;
 import com.revature.service.ReimbursementService;
@@ -35,8 +38,12 @@ public class RequestHelper {
 	// object mapper (for frontend)
 	private static ObjectMapper om = new ObjectMapper();
 	
+	//reuserable strings
 	private static String htmlPage = "text/html";
 	private static String currentUser = "the-user";
+	private static String notApplicable = "N/A";
+	
+	private static SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
 	
 	private static void setResponseJSON(HttpServletResponse response) {
 		response.setContentType("application/json");
@@ -182,14 +189,56 @@ public class RequestHelper {
 		
 
 }
-	public static void processUsersRequests(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+	public static void findEmployeesReimbursements(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		// get current user
 		HttpSession session = request.getSession();
 		Employee user = (Employee) session.getAttribute(currentUser);
 		
 		setResponseJSON(response);
 		
-		List<Reimbursement> reimbs = rserv.getbyAuthorId(user.getId());
+		List<Reimbursement> hirbernateReimbs = rserv.getbyAuthorId(user.getId());
+		List<Employee> employees = eserv.getAll();
+		
+		List<ReimbResponseJSON> reimbs = new LinkedList<ReimbResponseJSON>();
+		
+		for (Reimbursement r : hirbernateReimbs) {
+			
+			ReimbResponseJSON tempReimb = new ReimbResponseJSON();
+				tempReimb.setId(r.getId());
+				tempReimb.setAmount(r.getAmount());
+				if (r.getDate_submitted() != null) {
+					tempReimb.setDateSubmitted(dateFormatter.format(r.getDate_submitted()));
+				} else {
+					tempReimb.setDateSubmitted(notApplicable);
+				}
+				if (r.getDate_resolved() != null) {
+					tempReimb.setDateResolved(dateFormatter.format(r.getDate_resolved()));
+				} else {
+					tempReimb.setDateResolved(notApplicable);
+				}
+				tempReimb.setDescription(r.getDescription());
+				tempReimb.setAuthorUsername(employees.stream()
+					.filter(e -> e.getId() == r.getAuthorId())
+					.map(Employee::getUsername)
+					.collect(Collectors.toList())
+					.get(0));
+				if (r.getResolverId() > 0) {
+				tempReimb.setResolverUsername(employees.stream()
+					.filter(e -> e.getId() == r.getResolverId())
+					.map(Employee::getUsername)
+					.collect(Collectors.toList())
+					.get(0));
+				} else {
+					tempReimb.setResolverUsername(notApplicable);
+				}
+				tempReimb.setStatus(r.getStatus());
+				tempReimb.setType(r.getType());
+			
+			reimbs.add(tempReimb);
+				
+			
+		}
+		System.out.println(reimbs.get(0));
 		String jsonString = om.writeValueAsString(reimbs);
 		PrintWriter out = response.getWriter();
 		out.write(jsonString);
@@ -238,6 +287,18 @@ public class RequestHelper {
 		// persist the changes and set the updated employee as the session user
 		eserv.updateInfo(user);
 		session.setAttribute(currentUser, user);
+	}
+
+	public static void processLogout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		try {
+		session.invalidate();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} finally {
+		request.getRequestDispatcher("index.html").forward(request, response);
+		}
+		
 	}
 	
 
