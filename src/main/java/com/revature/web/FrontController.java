@@ -49,6 +49,8 @@ public class FrontController extends HttpServlet {
 			break;
 		case "update-account":
 			RequestHelper.updateUserInfo(request, response);
+		case "logout":
+			RequestHelper.processLogout(request, response);
 		default:
 			// custom error page
 			break;
