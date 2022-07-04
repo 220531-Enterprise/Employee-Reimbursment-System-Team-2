@@ -15,6 +15,7 @@
       <!-- Assume test is the database name -->
       <property name = "hibernate.connection.url">
         jdbc:postgresql://team-2.cvtq9j4axrge.us-east-1.rds.amazonaws.com:5432/postgres
+     <!--    jdbc:postgresql://localhost:5432/postgres -->
       </property>
       
      
