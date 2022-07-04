@@ -27,10 +27,12 @@
           <button class="btn btn-primary" id="submit-request">Submit Request</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id="btn-account" href="#">Account</a>
+          <a class="nav-link btn" id="btn-account" href="#">Account</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" id="log">Logout</a>
+          <form action="logout" method="post">
+            <button type="submit" class="nav-link btn">Logout</button>
+          </form>
         </li>
       </ul>
     </nav>
@@ -129,13 +131,13 @@
           $('#request-table').DataTable( {
             data: data,
             columns: [
-              {"data": "date_submitted"},
+              {"data": "dateSubmitted"},
               {"data": "amount"},
               {"data": "description"},
               {"data": "type"},
               {"data": "status"},
-              {"data": "resolverId"},
-              {"data": "date_resolved"}
+              {"data": "resolverUsername"},
+              {"data": "dateResolved"}
             ]
           }) 
         }
