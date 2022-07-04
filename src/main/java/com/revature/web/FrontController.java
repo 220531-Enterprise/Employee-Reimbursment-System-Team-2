@@ -42,13 +42,17 @@ public class FrontController extends HttpServlet {
 			RequestHelper.processReimbursementRequest(request, response);
 			break;
 		case "find-requests":
-			RequestHelper.processUsersRequests(request, response);
+			RequestHelper.findEmployeesReimbursements(request, response);
 			break;
 		case "get-user":
 			RequestHelper.getUserFromSession(request, response);
 			break;
 		case "update-account":
 			RequestHelper.updateUserInfo(request, response);
+			break;
+		case "logout":
+			RequestHelper.processLogout(request, response);
+			break;
 		default:
 			// custom error page
 			break;
