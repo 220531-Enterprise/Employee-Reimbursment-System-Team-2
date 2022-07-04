@@ -22,7 +22,7 @@
 
 
     <div class="registration">
-        <form action="register" method="post">
+        <div>
           <div class="imgcontainer">
             <img src="images/icon.jpg" alt="Avatar" class="avatar" />
           </div>
@@ -32,7 +32,7 @@
             <label for="firstname"><b>First Name</b></label>
             <input
               type="text"
-              placeholder="Enter first name"
+              placeholder="First"
               name="firstname"
               required
             />
@@ -40,7 +40,7 @@
             <label for="lastname"><b>Last Name</b></label>
             <input
               type="text"
-              placeholder="Enter last name"
+              placeholder="Last"
               name="lastname"
               required
             />
@@ -50,7 +50,7 @@
             <label for="username"><b>Username</b></label>
             <input
               type="text"
-              placeholder="Enter Username"
+              placeholder="Username"
               name="username"
               required
             />
@@ -68,19 +68,21 @@
             <label for="password"><b>Password</b></label>
             <input
               type="password"
-              placeholder="Enter Password"
+              placeholder="Password123"
               name="password"
               required
             />
+
+            <p id="message" style="color: red;"></p>
   
-            <button class="login-button" type="submit">Register</button>
+            <button id="register-button">Register</button>
             
           </div>
           
           
          
           
-        </form>
-    
+        </div>
+      <Script src="Scripts/register.js"></Script>
 </body>
 </html>

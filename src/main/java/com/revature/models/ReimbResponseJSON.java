@@ -2,13 +2,6 @@ package com.revature.models;
 
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
 import com.revature.enums.ReimbType;
 import com.revature.enums.Status;
 
