@@ -38,13 +38,13 @@ input[type=text], input[type=password] {
 /*******CLASS SELECTORS******/
 
 .top-container {
-    height: 85px;
+    height: 15vh;
     margin-bottom: 10px;
     
 }
 
 .night-div{
-    height: 100%;
+    height: 88vh;
 }
 
 .night{
@@ -131,6 +131,6 @@ span.psw {
     position: absolute;
     top: 22px;
     color: #090605;
-    margin-left: 33px;
+    margin-left: 38px;
     
   }
