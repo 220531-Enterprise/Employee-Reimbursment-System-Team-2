@@ -33,7 +33,7 @@ public class Employee {
 	@Column(name="last_name")
 	private String lastName;
 	
-//	@Column(unique=true)
+	@Column(unique=true)
 	private String username; // this column will just be "username" since we didn't provide a name attribute
 	
 	@Column(name="pwd")
