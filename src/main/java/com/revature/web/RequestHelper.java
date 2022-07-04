@@ -38,6 +38,11 @@ public class RequestHelper {
 	private static String htmlPage = "text/html";
 	private static String currentUser = "the-user";
 	
+	private static void setResponseJSON(HttpServletResponse response) {
+		response.setContentType("application/json");
+		response.addHeader("Access-Control-Allow-Origin", "*");
+	}
+	
 	/**
 	 * What does this method do?
 	 * 
@@ -125,8 +130,7 @@ public class RequestHelper {
 	}
 	
 	public static void processReimbursementRequest(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		response.setContentType("application/json");
-		response.addHeader("Access-Control-Allow-Origin", "*");
+		setResponseJSON(response);
 
 		System.out.println("in the processReimbursementRequest method within request helper");
 		
@@ -135,7 +139,6 @@ public class RequestHelper {
 		 */
 		Gson gson = new Gson();
 		gson = new GsonBuilder().create();
-		JsonObject payload = new JsonObject();
 
 		JsonParser jsonParser = new JsonParser();
 		// parse the payload of the HTTP request
@@ -184,13 +187,10 @@ public class RequestHelper {
 		HttpSession session = request.getSession();
 		Employee user = (Employee) session.getAttribute(currentUser);
 		
-		response.setContentType("application/json");
-		response.addHeader("Access-Control-Allow-Origin", "*");
+		setResponseJSON(response);
 		
 		List<Reimbursement> reimbs = rserv.getbyAuthorId(user.getId());
-		System.out.println(reimbs.get(4));
 		String jsonString = om.writeValueAsString(reimbs);
-		System.out.println(jsonString);
 		PrintWriter out = response.getWriter();
 		out.write(jsonString);
 	}
@@ -203,22 +203,14 @@ public class RequestHelper {
 		out.write(jsonString);
 	}
 	
-	public static void updateUserInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("application/json");
-		response.addHeader("Access-Control-Allow-Origin", "*");
+	public static void updateUserInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		setResponseJSON(response);
 
 		System.out.println("in the updateUserInfo method within request helper");
 		
-		/**
-		 * We're using GSON here because it's easier to use for parsing a payload.
-		 */
-		Gson gson = new Gson();
-		gson = new GsonBuilder().create();
-		JsonObject payload = new JsonObject();
-
 		JsonParser jsonParser = new JsonParser();
 		// parse the payload of the HTTP request
-		JsonElement root = jsonParser.parse(new InputStreamReader((InputStream) request.getInputStream()));
+		JsonElement root = jsonParser.parse(new InputStreamReader(request.getInputStream()));
 		// Transform payload string to json object
 		JsonObject rootobj = root.getAsJsonObject();
 
