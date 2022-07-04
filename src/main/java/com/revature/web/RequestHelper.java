@@ -177,42 +177,7 @@ public class RequestHelper {
 			String json = gson.toJson(new Reimbursement());
 		}
 		
-		//		double amount = Double.parseDouble(request.getParameter("amount"));
-//		String reimbType = request.getParameter("type");
-//		String description = request.getParameter("description");
-//		
-//		ReimbType type = null;
-//		switch (reimbType) {
-//			case "Travel":
-//				type = ReimbType.Travel;
-//				break;
-//			case "Supplies":
-//				type = ReimbType.Supplies;
-//				break;
-//			case "Food":
-//				type = ReimbType.Food;
-//				break;
-//		} 
-//		HttpSession session = request.getSession();
-//		Employee user = (Employee) session.getAttribute("the-user");
-//		
-//		
-//		
-//		Reimbursement reimb = new Reimbursement(amount, description, user.getId(), type);
-//		
-//		int pk = rserv.insert(reimb); 
-//		
-//		PrintWriter out = response.getWriter();
-//		if (pk > 0) {
-//			response.setContentType(htmlPage);
-//			out.println("Submitted!");
-//			out.println("<a href=\"welcome.html\">Back</a>");
-//		} else {
-//			response.setContentType("text/html");
-//			out.println("Hmmm... something when wrong, request was not submitted");
-//			out.println("<a href=\"welcome.html\">Back</a>");
-//		}
-//		
+
 }
 	public static void processUsersRequests(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		// get current user
@@ -238,13 +203,34 @@ public class RequestHelper {
 		out.write(jsonString);
 	}
 	
-	public static void updateUserInfo(HttpServletRequest request, HttpServletResponse response) {
-		// grab the inputs from the webpage
-		String username = request.getParameter("username");
-		String firstName = request.getParameter("firstname");
-		String lastName = request.getParameter("lastname");
-		String password = request.getParameter("password");
-		String email = request.getParameter("email");
+	public static void updateUserInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("application/json");
+		response.addHeader("Access-Control-Allow-Origin", "*");
+
+		System.out.println("in the updateUserInfo method within request helper");
+		
+		/**
+		 * We're using GSON here because it's easier to use for parsing a payload.
+		 */
+		Gson gson = new Gson();
+		gson = new GsonBuilder().create();
+		JsonObject payload = new JsonObject();
+
+		JsonParser jsonParser = new JsonParser();
+		// parse the payload of the HTTP request
+		JsonElement root = jsonParser.parse(new InputStreamReader((InputStream) request.getInputStream()));
+		// Transform payload string to json object
+		JsonObject rootobj = root.getAsJsonObject();
+
+		System.out.println(rootobj);
+		
+		// extract properties of JSON object
+		String username = rootobj.get("username").getAsString();
+		String firstName = rootobj.get("firstName").getAsString();
+		String lastName = rootobj.get("lastName").getAsString();
+		String password = rootobj.get("password").getAsString();
+		String email = rootobj.get("email").getAsString();
+		
 		
 		// get the session employee
 		HttpSession session = request.getSession();
