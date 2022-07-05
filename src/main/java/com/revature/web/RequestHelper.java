@@ -32,10 +32,13 @@ import com.revature.models.Reimbursement;
 import com.revature.service.EmployeeService;
 import com.revature.service.ManagerService;
 import com.revature.service.ReimbursementService;
+import com.revature.util.PassBasedEnc;
 
 public class RequestHelper {
 
-	// employeeservice
+	 private static String saltvalue = PassBasedEnc.getSaltvalue(30); 
+	
+
 	private static EmployeeService eserv = new EmployeeService(new EmployeeDao());
 	private static ReimbursementService rserv = new ReimbursementService(new ReimbursementDao());
 	private static ManagerService mserv = new ManagerService(new EmployeeDao(), new ReimbursementDao());
@@ -64,8 +67,26 @@ public class RequestHelper {
 	 * Who will provide the method with the HttpRequest? The UI We need to build an
 	 * html doc with a form that will send these prameters to the method
 	 */
-	public static void processRegistration(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException {
+
+	public static void processRegistration(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		setResponseJSON(response);
+
+		System.out.println("in the processRegistration method within request helper");
+		
+		/**
+		 * We're using GSON here because it's easier to use for parsing a payload.
+		 */
+		Gson gson = new Gson();
+		gson = new GsonBuilder().create();
+
+		JsonParser jsonParser = new JsonParser();
+		// parse the payload of the HTTP request
+		JsonElement root = jsonParser.parse(new InputStreamReader((InputStream) request.getInputStream()));
+		// Transform payload string to json object
+		JsonObject rootobj = root.getAsJsonObject();
+
+		System.out.println(rootobj);
+
 		String firstname = request.getParameter("firstname");
 		String lastname = request.getParameter("lastname");
 		String username = request.getParameter("username");
@@ -83,10 +104,10 @@ public class RequestHelper {
 			request.getRequestDispatcher("welcome.html").forward(request, response);
 		} else {
 
-			PrintWriter out = response.getWriter();
-			response.setContentType(htmlPage);
-			out.println("<h1>Registration failed. User already exists</h1>");
-			out.println("<a href=\"index.html\">Back</a>");
+			response.setContentType("text/plain"); 
+			response.setCharacterEncoding("UTF-8"); 
+			response.getWriter().write("Username alread exists.");
+
 		}
 
 	}
@@ -170,7 +191,8 @@ public class RequestHelper {
 		String description = rootobj.get("description").getAsString();
 		ReimbType type = null;
 		System.out.println(typeString);
-
+		
+		//get current users id
 		HttpSession session = request.getSession();
 		Employee user = (Employee) session.getAttribute(currentUser);
 		int authorId = user.getId();
@@ -182,6 +204,7 @@ public class RequestHelper {
 			type = ReimbType.Supplies;
 		}
 
+		// instanciate a new request
 		Reimbursement newRequest = new Reimbursement(amount, description, authorId, type);
 
 		// persist the new request
@@ -241,7 +264,6 @@ public class RequestHelper {
 			reimbs.add(tempReimb);
 
 		}
-		System.out.println(reimbs.get(0));
 		String jsonString = om.writeValueAsString(reimbs);
 		PrintWriter out = response.getWriter();
 		out.write(jsonString);
@@ -298,7 +320,6 @@ public class RequestHelper {
 		try {
 			session.invalidate();
 		} catch (IllegalStateException e) {
-			e.printStackTrace();
 		} finally {
 			request.getRequestDispatcher("index.html").forward(request, response);
 		}

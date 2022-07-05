@@ -61,7 +61,7 @@ public class FrontController extends HttpServlet {
 			RequestHelper.processLogout(request, response);
 			break;
 		default:
-			// custom error page
+			RequestHelper.processLogout(request, response);
 			break;
 		}
 		
