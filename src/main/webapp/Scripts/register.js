@@ -17,9 +17,15 @@ function register() {
             headers: {
                 "content-type": "application/json; charset=UTF-8"
             },
-    }).then(r => message.innerHTML = r)
-    }
+        }).then(r => {
+            if (r.status >= 200 && r.status < 300) {
+                location.href = "http://localhost:8080/employee-servlet-app/welcome.html"
+            } else {
+                message.innerHTML = "registration failed";
+            }
+        })
     
+    }
 }
 
 function inputIsValid(input) {

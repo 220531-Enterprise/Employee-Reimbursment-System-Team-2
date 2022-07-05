@@ -72,12 +72,6 @@ public class RequestHelper {
 		setResponseJSON(response);
 
 		System.out.println("in the processRegistration method within request helper");
-		
-		/**
-		 * We're using GSON here because it's easier to use for parsing a payload.
-		 */
-		Gson gson = new Gson();
-		gson = new GsonBuilder().create();
 
 		JsonParser jsonParser = new JsonParser();
 		// parse the payload of the HTTP request
@@ -87,26 +81,28 @@ public class RequestHelper {
 
 		System.out.println(rootobj);
 
-		String firstname = request.getParameter("firstname");
-		String lastname = request.getParameter("lastname");
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
+		String firstname = rootobj.get("firstName").getAsString();
+		String lastname = rootobj.get("lastName").getAsString();
+		String username = rootobj.get("username").getAsString();
+		String password = rootobj.get("password").getAsString();
 
-		String email = request.getParameter("email");
+		String email = rootobj.get("email").getAsString();
 		Employee e = new Employee(firstname, lastname, username, password, email, Role.Employee);
 
 		int pk = eserv.register(e);
 
 		if (pk > 0) {
-
+			e.setId(pk);
 			HttpSession session = request.getSession();
 			session.setAttribute(currentUser, e);
-			request.getRequestDispatcher("welcome.html").forward(request, response);
-		} else {
+			response.setContentType("text/plain"); 
+			response.setCharacterEncoding("UTF-8"); 
+			response.getWriter().write("success");
+		} else { 
 
 			response.setContentType("text/plain"); 
 			response.setCharacterEncoding("UTF-8"); 
-			response.getWriter().write("Username alread exists.");
+			response.getWriter().write("fiailed");
 
 		}
 
@@ -217,6 +213,7 @@ public class RequestHelper {
 			pw.write(json);
 		} else {
 			String json = gson.toJson(new Reimbursement());
+			pw.write(json);
 		}
 
 	}
@@ -244,11 +241,7 @@ public class RequestHelper {
 			} else {
 				tempReimb.setDateSubmitted(notApplicable);
 			}
-			if (r.getDate_resolved() != null) {
-				tempReimb.setDateResolved(dateFormatter.format(r.getDate_resolved()));
-			} else {
-				tempReimb.setDateResolved(notApplicable);
-			}
+
 			tempReimb.setDescription(r.getDescription());
 			tempReimb.setAuthorUsername(employees.stream().filter(e -> e.getId() == r.getAuthorId())
 					.map(Employee::getUsername).collect(Collectors.toList()).get(0));
@@ -257,6 +250,11 @@ public class RequestHelper {
 						.map(Employee::getUsername).collect(Collectors.toList()).get(0));
 			} else {
 				tempReimb.setResolverUsername(notApplicable);
+			}
+			if (r.getDate_resolved() != null && !tempReimb.getResolverUsername().equals(notApplicable)) {
+				tempReimb.setDateResolved(dateFormatter.format(r.getDate_resolved()));
+			} else {
+				tempReimb.setDateResolved(notApplicable);
 			}
 			tempReimb.setStatus(r.getStatus());
 			tempReimb.setType(r.getType());
@@ -391,11 +389,7 @@ public class RequestHelper {
 			} else {
 				tempReimb.setDateSubmitted(notApplicable);
 			}
-			if (r.getDate_resolved() != null) {
-				tempReimb.setDateResolved(dateFormatter.format(r.getDate_resolved()));
-			} else {
-				tempReimb.setDateResolved(notApplicable);
-			}
+
 			tempReimb.setDescription(r.getDescription());
 			if(employees.stream().filter(e -> e.getId() == r.getAuthorId()).findFirst().isPresent()) {
 				tempReimb.setAuthorUsername(employees.stream().filter(e -> e.getId() == r.getAuthorId())
@@ -408,6 +402,11 @@ public class RequestHelper {
 						.map(Employee::getUsername).collect(Collectors.toList()).get(0));
 			} else {
 				tempReimb.setResolverUsername(notApplicable);
+			}
+			if (r.getDate_resolved() != null && !tempReimb.getResolverUsername().equals(notApplicable)) {
+				tempReimb.setDateResolved(dateFormatter.format(r.getDate_resolved()));
+			} else {
+				tempReimb.setDateResolved(notApplicable);
 			}
 			tempReimb.setStatus(r.getStatus());
 			tempReimb.setType(r.getType());
