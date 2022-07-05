@@ -26,8 +26,10 @@ const accountPasswordInputFeild = document.getElementById('password');
 const accountEmailInputFeild = document.getElementById('email');
 const accountMessage = document.getElementById('account-message');
 
-
-  
+// Three Manger Feature
+const view_pending_request = document.getElementById('view-pd-rqst');
+const view_Resolved_request = document.getElementById('view-rsld-rqst');
+const view_All_Emp = document.getElementById('view-emp');
   
 fetchUser();    
 // opening and closing modals
@@ -200,10 +202,50 @@ function insertValues(data) {
      document.getElementById('email').value = data.email;
 
 }
-function deleteRow(){
-    console.log("hi");
+
+function saveDecisionChanges(remb_data,decision) {
+  
+    console.log("saveDecisionChanges is working")
+    //capture field values
+  
+    
+  
+    // make post request and send JSON with field values
+    fetch(`${url}update-reimbs-status`, {
+       
+        method: 'POST',
+        body: JSON.stringify({
+            id: remb_data.id,
+            decision: decision, 
+            email: remb_data.email
+
+          
+        }),
+        headers: {
+            "content-type": "application/json; charset=UTF-8"
+        },
+
+    
+    }).then(response => { // if request failed put an error message on the screen
+        if (!response.ok) {
+            // accountMessage.style = "color: red";
+            // accountMessage.innerHTML = 'Oops, something went wrong. Please try again later.';
+            throw Error('ERROR');
+            
+
+        } //if request was successful put a success accountMessage on the screen
+        accountMessage.style = "color: green;";
+        accountMessage.innerHTML = "Request Submitted successfully!";
+        return true;
+    }).catch(error => {
+        console.log(error);
+        accountMessage.style = "color: red";
+        accountMessage.innerHTML = 'Oops, something went wrong. Please try again later.';
+        return false;
+    })
    
 }
+
 
 // event listeners
 // general
@@ -217,4 +259,3 @@ accountButton.addEventListener('click', openAccountModal)
 cancelAccountModalButton.addEventListener('click', closeModals)
 accountEditButton.addEventListener('click', toggleAccountfields)
 saveAccountButton.addEventListener('click', saveAccountChanges)
-

@@ -50,6 +50,13 @@ public class FrontController extends HttpServlet {
 		case "update-account":
 			RequestHelper.updateUserInfo(request, response);
 			break;
+		case "find-requests-mgnr":
+			RequestHelper.findEmployeesReimbursementsMngr(request, response);
+			break;
+		
+		case "update-reimbs-status":
+			RequestHelper.updateRembsStatus(request, response);
+			break;
 		case "logout":
 			RequestHelper.processLogout(request, response);
 			break;

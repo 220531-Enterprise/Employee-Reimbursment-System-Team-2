@@ -7,6 +7,7 @@ import com.revature.models.Employee;
 import com.revature.models.Reimbursement;
 import com.revature.service.EmployeeService;
 import com.revature.service.ManagerService;
+import com.revature.service.ReimbursementService;
 
 public class Test {
 
@@ -17,7 +18,8 @@ public class Test {
 		EmployeeDao edao = new EmployeeDao();
 		ManagerService mserv = new ManagerService(edao,rdao);
 		EmployeeService eserv = new EmployeeService(edao,rdao);
-		mserv.getAllEmployeeResolvedReimbursementRequest();
+		ReimbursementService rserv = new ReimbursementService(rdao);
+//		mserv.getAllEmployeeResolvedReimbursementRequest();
 		
 //		System.out.println(rdao.findAll());
 //		System.out.println(rdao.findReimbursementbyId(1));
@@ -26,8 +28,8 @@ public class Test {
 //		Employee e1 = new Employee(5, "Bruce", "Banner", "thehulk", "green", "bigguy@avengers.net", Role.Manager);
 //		Employee e2 = new Employee(100, "t", "e", "s", "t", "test@avengers.net", Role.Employee);
 //		Reimbursement r1 = new Reimbursement( 7,5555, "change", 4, 10, Status.Approved ,ReimbType.Travel);
-		Reimbursement r2 = new Reimbursement( 10000, "change", 5 ,ReimbType.Travel);
-		
+//		Reimbursement r2 = new Reimbursement( 10000, "change", 5 ,ReimbType.Travel);
+		System.out.println(rserv.getAll().size());
 //		edao.updateEmployee(e1);
 //		System.out.println(rdao.deleteReimbursement(1));	
 //		rdao.updateReimbursement(r1);
@@ -41,7 +43,7 @@ public class Test {
 //		System.out.println(rdao.updateReimbursement(r1));
 //		System.out.println(rdao.findReimbursementbyId(2));
 //		System.out.println(rdao.findReimbursementbyAuthorId(edao.findEmployeeById(5).getId()));	
-		System.out.println(mserv.updateReimbursementStatus(15, Status.Approved,"chenx23333@gmail.com"));
+//		System.out.println(mserv.updateReimbursementStatus(15, Status.Approved,"chenx23333@gmail.com"));
 //		System.out.println(mserv.sendEmail("chenx23333@gmail.com"));
 //		System.out.println(mserv.getReimbursementRequestByEmployee(6));
 //		System.out.println(rdao.updateReimbursement(r1));
