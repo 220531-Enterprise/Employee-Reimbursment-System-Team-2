@@ -53,6 +53,15 @@ public class FrontController extends HttpServlet {
 		case "find-requests-mgnr":
 			RequestHelper.findEmployeesReimbursementsMngr(request, response);
 			break;
+		case "find-pending-requests-mgnr":
+			RequestHelper.findEmployeesPendingReimbursementsMngr(request, response);
+			break;
+		case "find-resolved-requests-mgnr":
+			RequestHelper.findEmployeesResolvedReimbursementsMngr(request, response);
+			break;
+		case "find-all-emp-mgnr":
+			RequestHelper.getAllEmp(request, response);
+			break;
 		
 		case "update-reimbs-status":
 			RequestHelper.updateRembsStatus(request, response);

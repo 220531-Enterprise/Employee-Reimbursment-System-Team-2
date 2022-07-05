@@ -343,19 +343,20 @@ public class RequestHelper {
 		System.out.println( user.getUsername()+ " " + user.getId());
 		
 		// persist the changes and set the updated employee as the session user
-//		mserv.updateReimbursementStatus(id, user.getId(),decision,email);
+		mserv.updateReimbursementStatus(id, user.getId(),decision,email);
 		session.setAttribute(currentUser, user);
 	}
 	
-	public static void findEmployeesReimbursementsMngr(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException {
+
+	public static void getEmployeesReimbursements(HttpServletRequest request, HttpServletResponse response,List<Reimbursement> reimbList)
+			throws IOException, ServletException{
 		// get current user
 		HttpSession session = request.getSession();
 		Employee user = (Employee) session.getAttribute(currentUser);
 		
 		setResponseJSON(response);
 		
-		List<Reimbursement> hirbernateReimbs = rserv.getAll();
+		List<Reimbursement> hirbernateReimbs = reimbList;
 		List<Employee> employees = eserv.getAll();
 
 		List<ReimbResponseJSON_Mngr> reimbs = new LinkedList<ReimbResponseJSON_Mngr>();
@@ -398,10 +399,53 @@ public class RequestHelper {
 			reimbs.add(tempReimb);
 
 		}
+		session.setAttribute(currentUser, user);
 		System.out.println(reimbs.get(0));
 		String jsonString = om.writeValueAsString(reimbs);
 		PrintWriter out = response.getWriter();
 		out.write(jsonString);
+		
+		
+	}
+	public static void findEmployeesReimbursementsMngr(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
+		
+		getEmployeesReimbursements( request,  response,rserv.getAll());
+//		getEmployeesReimbursements( request,  response,mserv.getAllEmployeesPendingReimbursementRequest());	
+		
+		
+	}
+	public static void findEmployeesPendingReimbursementsMngr(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
+			getEmployeesReimbursements( request,  response,mserv.getAllEmployeesPendingReimbursementRequest());
+		
+	}
+	public static void findEmployeesResolvedReimbursementsMngr(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
+		getEmployeesReimbursements( request,  response,mserv.getAllEmployeeResolvedReimbursementRequest());
+		
+	}
+	public static void getAllEmp(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException{
+		// get current user
+		HttpSession session = request.getSession();
+		Employee user = (Employee) session.getAttribute(currentUser);
+		
+		setResponseJSON(response);
+		
+		
+		List<Employee> employees = eserv.getAll();
+
+		
+		
+		
+		session.setAttribute(currentUser, user);
+		
+		String jsonString = om.writeValueAsString(employees);
+		PrintWriter out = response.getWriter();
+		out.write(jsonString);
+		
+		
 	}
 
 }
