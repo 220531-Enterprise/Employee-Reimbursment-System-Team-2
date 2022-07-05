@@ -33,9 +33,10 @@
                         View
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" id="view-pd-rqst" href="#">View Pending Request</a></li>
-                        <li><a class="dropdown-item" id="view-rsld-rqst" href="#">View Resolved Request</a></li>
-                        <li><a class="dropdown-item" id="view-emp" href="#">View Employee</a></li>
+                        <li><button class="dropdown-item" id="view-pd-rqst" href="#">View Pending Request</button></li>
+                        <li><button class="dropdown-item" id="view-rsld-rqst" href="#">View Resolved Request</button>
+                        </li>
+                        <li><button class="dropdown-item" id="view-emp" href="#">View Employee</button></li>
                     </ul>
                 </div>
             </li>
@@ -44,7 +45,7 @@
                 <a class="nav-link" id="btn-account" href="#">Account</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Logout</a>
+                <a class="nav-link" href="index.html">Logout</a>
             </li>
         </ul>
     </nav>
@@ -55,7 +56,7 @@
         <table id="request-table" class="table table-striped table-bordered mx-auto" style="width: 100%">
             <thead>
                 <tr>
-                 
+
                     <th class="text-center bg-primary">Request Date</th>
                     <th class="text-center bg-primary">Amount</th>
                     <th class="text-center bg-primary">Description</th>
@@ -69,6 +70,32 @@
             </thead>
         </table>
     </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div style="padding: 1rem;">
+        <table id="all-emp" class="table table-striped table-bordered mx-auto" style="width: 100%; display: none; " >
+            <thead>
+                <tr>
+
+                    <th class="text-center bg-primary">Id</th>
+                    <th class="text-center bg-primary">First Name</th>
+                    <th class="text-center bg-primary">Last Name</th>
+                    <th class="text-center bg-primary">Username </th>
+                    <th class="text-center bg-primary">Password</th>
+                    <th class="text-center bg-primary">Email</th>
+                    <th class="text-center bg-primary">Role</th>
+
+                </tr>
+            </thead>
+        </table>
+    </div>
+
 
 
     <!-- ----------modals ------------ -->
@@ -150,7 +177,7 @@
                     table = $('#request-table').DataTable({
                         data: data,
                         columns: [
-                        
+
                             { "data": "dateSubmitted" },
                             { "data": "amount" },
                             { "data": "description" },
@@ -159,7 +186,7 @@
                             { "data": "resolverUsername" },
                             { "data": "dateResolved" },
                             { "data": "email" },
-                         
+
                             {
 
                                 "data": function (data, type, full) {
@@ -175,29 +202,213 @@
                 }
             })
         });
-        
+
         var remb_data = null;
         const approve = $('#request-table').on('click', '#approve', function (e) {
             console.log("approve")
-            
+
             remb_data = table.row($(this).parents('tr')).data();
             console.log(remb_data)
-            saveDecisionChanges(remb_data,"approve")
+            saveDecisionChanges(remb_data, "approve")
             var row = $(e.currentTarget).closest("tr");
             $('#request-table').dataTable().fnDeleteRow(row);
-            
+
         });
 
         const deny = $('#request-table').on('click', '#deny', function (e) {
             console.log("deny")
             remb_data = table.row($(this).parents('tr')).data();
             console.log(remb_data)
-            saveDecisionChanges(remb_data,"deny");
+            saveDecisionChanges(remb_data, "deny");
             var row = $(e.currentTarget).closest("tr");
             $('#request-table').dataTable().fnDeleteRow(row);
-            
-            
+
+
         });
+
+        function createTable1() {
+            console.log("createTable1 is working")
+            $('#request-table').dataTable().fnDestroy();
+
+
+
+
+            var table = null;
+            let hostname = window.location.hostname;
+            $(document).ready(function () {
+                $.ajax({
+                    url: `http://${hostname}:8080/employee-servlet-app/find-pending-requests-mgnr`,
+                    method: 'post',
+                    success: function (data) {
+
+                        table = $('#request-table').DataTable({
+                            data: data,
+                            columns: [
+
+                                { "data": "dateSubmitted" },
+                                { "data": "amount" },
+                                { "data": "description" },
+                                { "data": "type" },
+                                { "data": "status" },
+                                { "data": "resolverUsername" },
+                                { "data": "dateResolved" },
+                                { "data": "email" },
+
+                                {
+
+                                    "data": function (data, type, full) {
+                                        return '<button class="btn btn-info btn-sm" id ="approve" >  Approve  </button> <button class="btn btn-info btn-sm" id ="deny" >' + 'Deny' + '</button>';
+                                    }
+                                }
+
+
+
+
+                            ]
+                        })
+                    }
+                })
+            });
+
+            var remb_data = null;
+            const approve = $('#request-table').on('click', '#approve', function (e) {
+                console.log("approve")
+
+                remb_data = table.row($(this).parents('tr')).data();
+                console.log(remb_data)
+                saveDecisionChanges(remb_data, "approve")
+                var row = $(e.currentTarget).closest("tr");
+                $('#request-table').dataTable().fnDeleteRow(row);
+
+            });
+
+            const deny = $('#request-table').on('click', '#deny', function (e) {
+                console.log("deny")
+                remb_data = table.row($(this).parents('tr')).data();
+                console.log(remb_data)
+                saveDecisionChanges(remb_data, "deny");
+                var row = $(e.currentTarget).closest("tr");
+                $('#request-table').dataTable().fnDeleteRow(row);
+
+
+            });
+
+        }
+        function createTable2() {
+            console.log("createTable2 is working")
+            $('#request-table').dataTable().fnDestroy();
+
+
+
+            var table = null;
+            let hostname = window.location.hostname;
+            $(document).ready(function () {
+                $.ajax({
+                    url: `http://${hostname}:8080/employee-servlet-app/find-resolved-requests-mgnr`,
+                    method: 'post',
+                    success: function (data) {
+
+                        table = $('#request-table').DataTable({
+                            data: data,
+                            columns: [
+
+                                { "data": "dateSubmitted" },
+                                { "data": "amount" },
+                                { "data": "description" },
+                                { "data": "type" },
+                                { "data": "status" },
+                                { "data": "resolverUsername" },
+                                { "data": "dateResolved" },
+                                { "data": "email" },
+
+                                {
+
+                                    "data": function (data, type, full) {
+                                        return '<button class="btn btn-info btn-sm" id ="approve" >  Approve  </button> <button class="btn btn-info btn-sm" id ="deny" >' + 'Deny' + '</button>';
+                                    }
+                                }
+
+
+
+
+                            ]
+                        })
+                    }
+                })
+            });
+
+            var remb_data = null;
+            const approve = $('#request-table').on('click', '#approve', function (e) {
+                console.log("approve")
+
+                remb_data = table.row($(this).parents('tr')).data();
+                console.log(remb_data)
+                saveDecisionChanges(remb_data, "approve")
+                var row = $(e.currentTarget).closest("tr");
+                $('#request-table').dataTable().fnDeleteRow(row);
+
+            });
+
+            const deny = $('#request-table').on('click', '#deny', function (e) {
+                console.log("deny")
+                remb_data = table.row($(this).parents('tr')).data();
+                console.log(remb_data)
+                saveDecisionChanges(remb_data, "deny");
+                var row = $(e.currentTarget).closest("tr");
+                $('#request-table').dataTable().fnDeleteRow(row);
+
+
+            });
+
+        }
+        function createTable3() {
+            console.log("createTable3 is working")
+            if (document.getElementById("all-emp").style.display === "none")
+                document.getElementById("all-emp").style.display = "block";
+            else
+                document.getElementById("all-emp").style.display = "none";
+
+
+
+
+            var table = null;
+            let hostname = window.location.hostname;
+            $(document).ready(function () {
+                $.ajax({
+                    url: `http://${hostname}:8080/employee-servlet-app/find-all-emp-mgnr`,
+                    method: 'post',
+                    success: function (data) {
+
+                        table = $('#all-emp').DataTable({
+                            data: data,
+                            columns: [
+
+                                { "data": "id" },
+                                { "data": "firstName" },
+                                { "data": "lastName" },
+                                { "data": "username" },
+                                { "data": "password" },
+                                { "data": "email" },
+                                { "data": "role" }
+
+
+
+
+
+
+                            ]
+                        })
+                    }
+                })
+            });
+
+
+
+
+        }
+        view_pending_request.addEventListener('click', createTable1);
+        view_Resolved_request.addEventListener('click', createTable2);
+        view_All_Emp.addEventListener('click', createTable3);
     </script>
 
 </body>
