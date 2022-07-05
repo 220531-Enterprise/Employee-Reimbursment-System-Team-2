@@ -39,8 +39,9 @@ input[type=text], input[type=password] {
 .beach {
 	width: 100%;
     height: 88vh;
-    position: absolute;
-    margin-right: 2px; 
+    position: relative;
+    margin-right: 2px;
+    text-align: center;
      
 }
 
