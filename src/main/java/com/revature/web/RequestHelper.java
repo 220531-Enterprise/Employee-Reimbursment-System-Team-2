@@ -295,7 +295,7 @@ public class RequestHelper {
 		String username = rootobj.get("username").getAsString();
 		String firstName = rootobj.get("firstName").getAsString();
 		String lastName = rootobj.get("lastName").getAsString();
-		String password = PassBasedEnc.generateSecurePassword(rootobj.get("password").getAsString(), saltvalue);
+		String password = rootobj.get("password").getAsString();
 		String email = rootobj.get("email").getAsString();
 
 		// get the session employee
