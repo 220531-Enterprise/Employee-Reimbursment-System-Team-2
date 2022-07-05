@@ -19,7 +19,10 @@
     <url-pattern>/find-requests</url-pattern>
     <url-pattern>/get-user</url-pattern>
     <url-pattern>/update-account</url-pattern>
+    <url-pattern>/find-requests-mgnr</url-pattern>
+    <url-pattern>/update-reimbs-status</url-pattern>
     <url-pattern>/logout</url-pattern>
+   
     
     <!-- http://localhost:8080/employee-servlet-app/login -->
     <!-- http://localhost:8080/employee-servlet-app/employees -->
