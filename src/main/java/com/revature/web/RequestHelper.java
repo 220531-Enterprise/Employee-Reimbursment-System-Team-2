@@ -29,8 +29,12 @@ import com.revature.models.ReimbResponseJSON;
 import com.revature.models.Reimbursement;
 import com.revature.service.EmployeeService;
 import com.revature.service.ReimbursementService;
+import com.revature.util.PassBasedEnc;
 
 public class RequestHelper {
+	
+	// password hasher
+	 private static String saltvalue = PassBasedEnc.getSaltvalue(30); 
 	
 	// employeeservice
 	private static EmployeeService eserv = new EmployeeService(new EmployeeDao());
@@ -63,7 +67,7 @@ public class RequestHelper {
 	public static void processRegistration(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		setResponseJSON(response);
 
-		System.out.println("in the processReimbursementRequest method within request helper");
+		System.out.println("in the processRegistration method within request helper");
 		
 		/**
 		 * We're using GSON here because it's easier to use for parsing a payload.
@@ -83,10 +87,10 @@ public class RequestHelper {
 		
 		
 		
-		String firstname = rootobj.get("firstname").getAsString();
-		String lastname = rootobj.get("lastname").getAsString();
+		String firstname = rootobj.get("firstName").getAsString();
+		String lastname = rootobj.get("lastName").getAsString();
 		String username = rootobj.get("username").getAsString();
-		String password = rootobj.get("password").getAsString();
+		String password = PassBasedEnc.generateSecurePassword(rootobj.get("password").getAsString(), saltvalue);
 		String email = rootobj.get("email").getAsString();
 		Employee e = new Employee(firstname,lastname,username,password, email, Role.Employee);
 
@@ -111,7 +115,7 @@ public class RequestHelper {
 		
 		// 1. Extract the parameters from the request (username & password)
 		String username = request.getParameter("username");
-		String password = request.getParameter("password"); // use fn + arrow key < or > to get to the beginning or end of a line of code
+		String password = PassBasedEnc.generateSecurePassword(request.getParameter("password"), saltvalue); // use fn + arrow key < or > to get to the beginning or end of a line of code
 		// use ctrl + arrow key to go from word to word
 		
 		// 2. call the confirm login(0 method from the employeeService and see what it returns
@@ -259,7 +263,6 @@ public class RequestHelper {
 				
 			
 		}
-		System.out.println(reimbs.get(0));
 		String jsonString = om.writeValueAsString(reimbs);
 		PrintWriter out = response.getWriter();
 		out.write(jsonString);
@@ -290,7 +293,7 @@ public class RequestHelper {
 		String username = rootobj.get("username").getAsString();
 		String firstName = rootobj.get("firstName").getAsString();
 		String lastName = rootobj.get("lastName").getAsString();
-		String password = rootobj.get("password").getAsString();
+		String password = PassBasedEnc.generateSecurePassword(rootobj.get("password").getAsString(), saltvalue);
 		String email = rootobj.get("email").getAsString();
 		
 		
