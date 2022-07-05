@@ -70,12 +70,13 @@ public class ManagerService {
 
 	// Use Case: A Manager can approve/deny pending reimbursement requests
 	// Use Case: An Employee receives an email when one of their reimbursement requests is resolved (optional)
-	public boolean updateReimbursementStatus(int id, Status status, String email) {
+	public boolean updateReimbursementStatus(int id, int resolverId,Status status, String email) {
 
 		Reimbursement r = rdao.findReimbursementbyId(id);
 		if (r == null)
 			return false;
 		r.setStatus(status);
+		r.setResolverId(resolverId);
 		if (!status.toString().equals("Pending")) {
 			sendEmail(email);
 		}

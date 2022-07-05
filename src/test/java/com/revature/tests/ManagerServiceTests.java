@@ -159,7 +159,7 @@ public class ManagerServiceTests {
 		when(rmockdao.findReimbursementbyId(r1.getId())).thenReturn(r1);
 		when(rmockdao.updateReimbursement(r1)).thenReturn(true);
 		boolean actual = true;
-		boolean expected = mserv.updateReimbursementStatus(r1.getId(), Status.Approved,email);
+		boolean expected = mserv.updateReimbursementStatus(r1.getId(), 5,Status.Approved,email);
 	
 		assertEquals(expected, actual);
 	}
